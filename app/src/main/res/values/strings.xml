@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">How long does it take?</string>
+    <string name="edit_message">Name of an action</string>
+    <string name="button_send">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_resume">Resume</string>
+    <string name="reserved">Reserved</string>
+    <string name="delete_all">Delete All</string>
+    <string name="confirm_delete_all">Delete all records?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="current_action">Current Action:</string>
+    <string name="please_select_name">Please select name for your action</string>
+    <string name="name_exits">This action name already exists. Please select different name.</string>
+    <string name="invalid_input">Invalid Input</string>
+    <string name="action_filter">Search:</string>
+    <string name="type_text_to_filter">Type to search in actions...</string>
+</resources>
