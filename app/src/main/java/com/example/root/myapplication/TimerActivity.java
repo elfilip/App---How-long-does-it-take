@@ -48,7 +48,7 @@ public class TimerActivity extends AppCompatActivity {
             TextView actionName = (TextView) findViewById(R.id.actionName);
             actionName.setText(message);
             actionNameVar = message;
-            timer = new Chronometer(this);
+            timer = (Chronometer)findViewById(R.id.chronometer);
             if (timerBase != -1) {
                 timer.setBase(timerBase);
             }

@@ -78,7 +78,6 @@
             android:numColumns="2"
             android:layout_weight="1"
             android:verticalSpacing="2dp"
-            android:horizontalSpacing="2dp"
                         >
             >
 

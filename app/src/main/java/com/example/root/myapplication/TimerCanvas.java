@@ -62,6 +62,10 @@ public class TimerCanvas extends View {
         length = biggerSide / 3;
         space = (int) (length * 0.9);
         if (bitmap ==null) {
+            if(canvasHeight == 0 || canvasWidth == 0){
+                canvasHeight=500;
+                canvasWidth=500;
+            }
             bitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
             Canvas bitMapCanvas = new Canvas(bitmap);
             drawWatchFace(bitMapCanvas);

@@ -97,6 +97,7 @@ public class GridAdapter extends BaseAdapter {
                 TextView time = new TextView(context);
                 time.setText(filtered.get(row).getTime());
                 time.setTextSize(textSize);
+                time.setPadding(5, 0, 0, 0);
                 configureView(time, row, viewGroup);
                 linearLayout.addView(time);
                 linearLayout.setGravity(Gravity.CENTER);

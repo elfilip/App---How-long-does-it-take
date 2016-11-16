@@ -141,7 +141,9 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
     private void deleteAllActionViews(){
         GridView grid=(GridView) findViewById(R.id.action_list);
-        grid.removeAllViews();
+        app.deleteAllActions();
+        adapter.setFiltered(new LinkedList<Action>());
+        adapter.notifyDataSetChanged();
     }
 
     private void checkIfTimerCounts(){
