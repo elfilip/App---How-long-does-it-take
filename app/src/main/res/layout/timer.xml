@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/timer">
 
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -27,7 +28,20 @@
             android:gravity="center_horizontal"
             android:background="@android:color/background_dark"
             android:textColor="?attr/colorButtonNormal"
-            android:elevation="4dp" />
+            android:elevation="4dp"
+            android:paddingTop="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="3dp"
+            android:background="#0004ff"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -46,11 +60,38 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_layout">
+        android:id="@+id/layout_notes"
+        android:background="@android:color/black">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/timer_note"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:theme="@style/FilipsTheme"
+            android:textColor="#ffffff"
+            android:textColorHint="#ff0000"
+            android:hint="@string/add_some_note"
+            android:singleLine="false"
+            android:focusable="false"></EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_layout"
+        android:background="@android:color/black"
+        >
 
         <Button
             android:text="@string/button_pause"

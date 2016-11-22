@@ -16,4 +16,10 @@
     <string name="invalid_input">Invalid Input</string>
     <string name="action_filter">Search:</string>
     <string name="type_text_to_filter">Type to search in actions...</string>
+    <string name="name">Name:</string>
+    <string name="time">Time:</string>
+    <string name="date">Date:</string>
+    <string name="note">Note:</string>
+    <string name="add_some_note">Add a note...</string>
+    <string name="action_details">Action\'s Details</string>
 </resources>

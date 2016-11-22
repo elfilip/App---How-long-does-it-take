@@ -1,6 +1,7 @@
 package com.example.root.myapplication.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -9,11 +10,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.root.myapplication.DetailActivity;
+import com.example.root.myapplication.R;
+import com.example.root.myapplication.TimerActivity;
 import com.example.root.myapplication.entity.Action;
+import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.util.MyApplication;
 
 import java.util.List;
@@ -90,20 +96,37 @@ public class GridAdapter extends BaseAdapter {
                 name.setHorizontallyScrolling(true);
                 name.setMovementMethod(new ScrollingMovementMethod());
                 name.setPadding(5, 0, 0, 0);
+                name.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDetailActivity(filtered.get(row).getName());
+                    }
+                });
                 configureView(name, row, viewGroup);
                 linearLayout.addView(name);
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDetailActivity(filtered.get(row).getName());
+                }
+            });
                 break;
             case 1://time column
                 TextView time = new TextView(context);
                 time.setText(filtered.get(row).getTime());
                 time.setTextSize(textSize);
                 time.setPadding(5, 0, 0, 0);
+                time.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDetailActivity(filtered.get(row).getName());
+                    }
+                });
                 configureView(time, row, viewGroup);
                 linearLayout.addView(time);
                 linearLayout.setGravity(Gravity.CENTER);
 
-              //  break;
-            //case 2: //delete column
+                //delete column
                 LinearLayout deleteLayout = new LinearLayout(context);
                 deleteLayout.setOrientation(LinearLayout.HORIZONTAL);
                 ViewGroup.LayoutParams dlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -141,13 +164,15 @@ public class GridAdapter extends BaseAdapter {
         } else {
             view.setBackgroundColor(Color.parseColor(color2));
         }
-
         view.setBackgroundColor(Color.TRANSPARENT);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        //   view.setLayoutParams(lp);
-        //   view.setPadding(0,30,0,0);
+    }
 
+    private void showDetailActivity(String name) {
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(Constants.ACTION_NAME, name);
+        context.startActivity(intent);
     }
 
 }

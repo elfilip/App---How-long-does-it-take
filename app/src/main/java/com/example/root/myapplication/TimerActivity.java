@@ -7,9 +7,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.myapplication.entity.Action;
@@ -32,8 +37,7 @@ public class TimerActivity extends AppCompatActivity {
     private long timeWhenStopped = 0;
     private String actionNameVar;
     private MyApplication app;
-    private boolean isStoped = false;
-    Bitmap bitMap;
+    private EditText noteView;
 
 
 
@@ -44,9 +48,13 @@ public class TimerActivity extends AppCompatActivity {
             setContentView(R.layout.timer);
             Intent intent = getIntent();
             String message = intent.getStringExtra(MainActivity.ACTION_NAME);
+            String nameUpperCase=message.substring(0,1).toUpperCase().concat(message.substring(1));
             long timerBase=intent.getLongExtra(MainActivity.TIMER_BASE,-1);
             TextView actionName = (TextView) findViewById(R.id.actionName);
-            actionName.setText(message);
+          //  SpannableString actionNameSpan = new SpannableString(nameUpperCase);
+            //actionNameSpan.setSpan(new UnderlineSpan(), 0, nameUpperCase.length(), 0);
+            //actionName.setText(actionNameSpan);
+            actionName.setText(nameUpperCase);
             actionNameVar = message;
             timer = (Chronometer)findViewById(R.id.chronometer);
             if (timerBase != -1) {
@@ -54,6 +62,17 @@ public class TimerActivity extends AppCompatActivity {
             }
             System.out.println("TimerActivityOnCreate");
             app = MyApplication.getInstance(getApplicationContext().getFilesDir());
+            noteView = (EditText) findViewById(R.id.timer_note);
+            noteView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    noteView.setFocusableInTouchMode(true);
+                    noteView.setFocusable(true);
+                    noteView.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(noteView, InputMethodManager.SHOW_IMPLICIT);
+                }
+            });
             final TimerCanvas customCanvas = (TimerCanvas) findViewById(R.id.signature_canvas);
             timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
                 @Override
@@ -121,13 +140,17 @@ public class TimerActivity extends AppCompatActivity {
     public void stopClick(View view) {
         timer.stop();
         FileOutputStream outputStream = null;
-        Action action = new Action(actionNameVar, getTime(timer), new Date());
+        String noteText;
+        if (noteView != null && noteView.getText().toString().trim().length() != 0) {
+            noteText=noteView.getText().toString();
+        }else{
+            noteText = "";
+        }
+        Action action = new Action(actionNameVar, getTime(timer), new Date(),noteText);
         MyApplication app = MyApplication.getInstance(getApplicationContext().getFilesDir());
         app.addAction(action);
-        Intent intent = new Intent(this, MainActivity.class);
         app.deleteStatusFile();
-        isStoped=true;
-        startActivity(intent);
+        finish();
     }
 
     private String getTime(Chronometer timer) {
@@ -161,9 +184,7 @@ public class TimerActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        System.out.println("TimeActivityOnStop");
-        if(isStoped==false)
-            app.saveStatus(new  Status(actionNameVar,timer.getBase()));
+        System.out.println("TimeActivityOnStop "+timer.getBase());
         super.onStop();
     }
     @Override

@@ -7,4 +7,5 @@ package com.example.root.myapplication.util;
 public class Constants {
     public static final String ACTION_FILE="actions.json";
     public static final String STATUS_FILE="status.properties";
+    public static final String ACTION_NAME="action_name";
 }

@@ -10,11 +10,18 @@ public class Action {
     private String name;
     private String time;
     private Date date;
+    private String note;
 
     public Action(String name, String time, Date date) {
+        this(name, time, date, "");
+
+    }
+
+    public Action(String name, String time, Date date, String note) {
         this.name = name;
         this.time = time;
         this.date = date;
+        this.note=note;
     }
 
     public String getName() {
@@ -39,5 +46,13 @@ public class Action {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

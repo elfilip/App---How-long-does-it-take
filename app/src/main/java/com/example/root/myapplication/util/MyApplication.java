@@ -212,4 +212,13 @@ public class MyApplication {
         return false;
     }
 
+    public Action getAction(String name) {
+        for (Action a : actions) {
+            if (a.getName().equals(name)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
 }

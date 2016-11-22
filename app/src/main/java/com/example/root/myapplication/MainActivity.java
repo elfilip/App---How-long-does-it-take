@@ -3,6 +3,7 @@ package com.example.root.myapplication;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
     /** Called when the user clicks the Send button */
     public void clickStart(View view) {
+
         Intent intent = new Intent(this, TimerActivity.class);
         EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
             Utils.showAlertDialog(this,R.string.invalid_input,R.string.name_exits,R.string.ok);
             return;
         }
+        app.saveStatus(new  Status(message, SystemClock.elapsedRealtime()));
         intent.putExtra(ACTION_NAME, message);
         startActivity(intent);
 
