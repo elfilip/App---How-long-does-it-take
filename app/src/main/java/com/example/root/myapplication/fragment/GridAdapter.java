@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -36,12 +37,12 @@ public class GridAdapter extends BaseAdapter {
     int cols;
    // private List<Action> actions;
     private List<Action> filtered;
-    private Context context;
+    private AppCompatActivity context;
     private final String color1 = "#c9cacc";
     private final String color2 = "#e3e3e5";
     private int rowHeight;
 
-    public GridAdapter(List<Action> filtered, int cols, Context context) {
+    public GridAdapter(List<Action> filtered, int cols, AppCompatActivity context) {
 
         rows = filtered.size();
         this.cols = cols;
@@ -172,7 +173,8 @@ public class GridAdapter extends BaseAdapter {
     private void showDetailActivity(String name) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(Constants.ACTION_NAME, name);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,DetailActivity.CODE);
+       // context.startActivity(intent);
     }
 
 }

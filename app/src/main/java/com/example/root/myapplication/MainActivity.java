@@ -36,9 +36,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements DeleteDialog.DeleteAllDialogListener {
     public final static String ACTION_NAME = "com.example.myfirstapp.MESSAGE";
     public final static String TIMER_BASE = "com.example.myfirstapp.TIMERBASE";
-    private Map<String,ActionView> actionViews=new HashMap<>();
     private MyApplication app;
-    GridAdapter adapter ;
+    private GridAdapter adapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,5 +190,17 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == DetailActivity.CODE) {
+            // Make sure the request was successful
+            if (resultCode == DetailActivity.RESULT_CODE_UPDATE) {
+                adapter.notifyDataSetChanged();
+                System.out.println("Updatuji list");
+            }
+        }
     }
 }

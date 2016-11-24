@@ -221,4 +221,22 @@ public class MyApplication {
         return null;
     }
 
+    public void updateActionName(String actionName, String newName) {
+        Action a = getAction(actionName);
+        if (a == null) {
+            throw new RuntimeException("Updating unknown action");
+        }
+        a.setName(newName);
+        saveActions();
+    }
+
+    public void updateActionNote(String actionName, String newNote){
+        Action a = getAction(actionName);
+        if (a == null) {
+            throw new RuntimeException("Updating unknown action");
+        }
+        a.setNote(newNote);
+        saveActions();
+    }
+
 }
