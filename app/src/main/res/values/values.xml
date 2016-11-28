@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_material_light">#484848</color>
+    <color name="cards_background">#ffffff</color>
+    <color name="details_screen_background">#f1f1f1</color>
+    <color name="cards_lines">#f40000</color>
+    <color name="details_title">#0099cc</color>
 </resources>

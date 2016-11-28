@@ -5,65 +5,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="0dp"
+    android:background="@android:color/white">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+
+        android:theme="@style/ToolbarTheme"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/main_toolbar"
         android:elevation="4dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="#ffffff"
+        app:subtitleTextColor="#ffffff"
+    android:background="?attr/colorPrimary"
+        />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
+        android:layout_weight="0"
+        android:background="@color/main_activity_top">
 
-        <EditText
-            android:id="@+id/edit_message"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/edit_message"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_send"
-            android:onClick="clickStart"
-            android:layout_weight="0.3" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/edit_message"
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/edit_message"
+                    android:background="@android:color/white"
+                    android:textSize="22sp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_send"
+                    android:onClick="clickStart"
+                    android:layout_weight="1"
+                    android:paddingRight="10dp"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="@android:color/holo_blue_dark"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/main_activity_top">
 
-        <TextView
-            android:text="@string/action_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/textView2"
-            android:textSize="18sp"
-            android:paddingLeft="5dp" />
+            android:layout_margin="10dp">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/search_field"
-            android:layout_weight="1"
-            android:hint="@string/type_text_to_filter" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/search_field"
+                android:layout_weight="1"
+                android:hint="@string/type_text_to_filter"
+                android:background="@android:color/transparent"
+                android:padding="5dp" />
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
+    <View
+        android:layout_width="fill_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="1dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,18 +109,19 @@
         android:gravity="center"
 
         >
-        <GridView
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/action_list"
-            android:numColumns="2"
             android:layout_weight="1"
-            android:verticalSpacing="2dp"
-                        >
+            android:verticalSpacing="0.5dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
             >
 
 
-        </GridView>
+        </ListView>
 
     </RelativeLayout>
 

@@ -2,28 +2,19 @@ package com.example.root.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.myapplication.entity.Action;
-import com.example.root.myapplication.entity.Status;
 import com.example.root.myapplication.util.MyApplication;
-import com.example.root.myapplication.util.Constants;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
 
@@ -38,6 +29,7 @@ public class TimerActivity extends AppCompatActivity {
     private String actionNameVar;
     private MyApplication app;
     private EditText noteView;
+    public static final int RESULT_CODE =2;
 
 
 
@@ -91,6 +83,7 @@ public class TimerActivity extends AppCompatActivity {
                 }
             });
             timer.start();
+            setResult(TimerActivity.RESULT_CODE);
 
 
         }catch(Exception e){

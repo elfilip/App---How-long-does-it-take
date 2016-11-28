@@ -8,36 +8,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.example.root.myapplication.dialog.DeleteDialog;
 import com.example.root.myapplication.entity.Action;
-import com.example.root.myapplication.entity.ActionView;
 import com.example.root.myapplication.entity.Status;
-import com.example.root.myapplication.fragment.GridAdapter;
+import com.example.root.myapplication.fragment.ActionListAdapter;
 import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.util.MyApplication;
 import com.example.root.myapplication.util.Utils;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements DeleteDialog.DeleteAllDialogListener {
     public final static String ACTION_NAME = "com.example.myfirstapp.MESSAGE";
     public final static String TIMER_BASE = "com.example.myfirstapp.TIMERBASE";
     private MyApplication app;
-    private GridAdapter adapter ;
+    private ActionListAdapter adapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         }
         app.saveStatus(new  Status(message, SystemClock.elapsedRealtime()));
         intent.putExtra(ACTION_NAME, message);
-        startActivity(intent);
+        startActivityForResult(intent,101);
 
     }
 
@@ -136,13 +132,13 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
     private void createList(ViewGroup layout){
 
-        final GridView grid=(GridView) findViewById(R.id.action_list);
-        adapter = new GridAdapter( app.getActions(),2,this);
+        final ListView grid=(ListView) findViewById(R.id.action_list);
+        adapter = new ActionListAdapter( app.getActions(),this);
         grid.setAdapter(adapter);
     }
 
     private void deleteAllActionViews(){
-        GridView grid=(GridView) findViewById(R.id.action_list);
+        ListView grid=(ListView) findViewById(R.id.action_list);
         app.deleteAllActions();
         adapter.setFiltered(new LinkedList<Action>());
         adapter.notifyDataSetChanged();
@@ -197,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         // Check which request we're responding to
         if (requestCode == DetailActivity.CODE) {
             // Make sure the request was successful
-            if (resultCode == DetailActivity.RESULT_CODE_UPDATE) {
+            if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {
                 adapter.notifyDataSetChanged();
                 System.out.println("Updatuji list");
             }
