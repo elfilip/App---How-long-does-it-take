@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         ViewGroup layout=(ViewGroup)findViewById(R.id.action_list);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setIcon(android.R.drawable.ic_menu_myplaces);
         app = MyApplication.getInstance(getApplicationContext().getFilesDir());
-        System.out.println("MainActivityOnCreate");
         createList(layout);
         checkIfTimerCounts();
         applyFilterSearch();
@@ -195,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
             // Make sure the request was successful
             if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {
                 adapter.notifyDataSetChanged();
-                System.out.println("Updatuji list");
             }
         }
     }

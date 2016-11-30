@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RadialGradient;
+import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -68,6 +71,7 @@ public class TimerCanvas extends View {
             }
             bitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.RGB_565);
             Canvas bitMapCanvas = new Canvas(bitmap);
+            drawBackGround(bitMapCanvas);
             drawWatchFace(bitMapCanvas);
         }
             canvas.drawBitmap(bitmap,0,0,new Paint());
@@ -98,7 +102,7 @@ public class TimerCanvas extends View {
 
         Paint _paintBlur = new Paint();
 
-        canvas.drawColor(Color.BLACK);
+       // canvas.drawColor(Color.BLACK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             setLayerType(LAYER_TYPE_SOFTWARE, p);
         }
@@ -133,5 +137,34 @@ public class TimerCanvas extends View {
             throw new RuntimeException("Invalid number of seconds. Max is 59 but was " + seconds);
         }
         this.seconds = seconds;
+    }
+
+    private void drawBackGround(Canvas canvas) {
+        int circleSize=500;
+        int[] colors = {0xff001f51,0xff000000,0xff000000,0xff001f51};
+        float[] positions={0f,0.4f,0.6f,1f};
+        LinearGradient gradient = new LinearGradient(0, 0, canvasWidth,canvasHeight, colors,positions, android.graphics.Shader.TileMode.CLAMP);
+        //Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        // canvas.drawColor(Color.BLACK);
+       Paint pa = new Paint();
+        pa.setDither(true);
+        pa.setShader(gradient);
+        canvas.drawRect(new RectF(0, 0, canvasWidth,canvasHeight),  pa);
+    }
+
+
+    private Bitmap makeRadGrad() {
+        // canvas.drawColor(Color.BLACK);
+        RadialGradient gradient = new RadialGradient(200, 200, 200, 0xff002156,
+                0xff002156, android.graphics.Shader.TileMode.CLAMP);
+        Paint p = new Paint();
+        p.setDither(true);
+        p.setShader(gradient);
+
+        Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+        c.drawCircle(200, 200, 200, p);
+
+        return bitmap;
     }
 }

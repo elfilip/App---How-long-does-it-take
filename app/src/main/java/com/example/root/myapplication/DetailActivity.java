@@ -6,6 +6,9 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -100,13 +103,35 @@ public class DetailActivity extends AppCompatActivity {
         String dateText = sdf.format(currentAction.getDate());
         date.setText(dateText);
         note.setText(currentAction.getNote());
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        setSupportActionBar(myToolbar);
+        this.setTitle("Action's Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.bar, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public void onBackPressed() {
        super.onBackPressed();
        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
