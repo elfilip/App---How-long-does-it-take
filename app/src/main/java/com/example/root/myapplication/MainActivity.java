@@ -102,13 +102,14 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("Options selected");
         switch (item.getItemId()) {
             case R.id.action_delete_all:
                 DialogFragment dialog = new DeleteDialog();
                 dialog.show(getFragmentManager(), "NoticeDialogFragment");
                 return true;
 
-            case R.id.action_reserved:
+            case R.id.action_about:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
                 return true;

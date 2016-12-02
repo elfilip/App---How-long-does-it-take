@@ -2,19 +2,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- "Mark Favorite", should appear as action button if possible -->
-    <item
-        android:id="@+id/action_delete_all"
 
-        android:title="Delete All"
+            <item
+                android:id="@+id/action_delete_all"
+
+                android:title="@string/delete_all"
+                android:visible="true"
+                android:icon="@android:drawable/ic_delete"
+                android:checkable="false"
+                android:enabled="true"></item>
+            <item android:id="@+id/action_about"
+                android:title="@string/about"
+                android:visible="true"
+                android:icon="@android:drawable/ic_menu_search"></item>
+    <item android:id="@+id/action_help"
+        android:title="@string/help"
         android:visible="true"
-        android:icon="@android:drawable/ic_delete"></item>
+        android:icon="@android:drawable/ic_menu_search"></item>
+    <item android:id="@+id/settings"
+        android:title="@string/settings"
+        android:visible="true"
+        android:icon="@android:drawable/ic_menu_search"></item>
+
 
 
 
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_reserved"
-        android:title="Reserved"
-        android:visible="true"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction=""></item>
 </menu>
+
+
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+<!--<item-->
+    <!--android:id="@+id/action_settings"-->
+    <!--android:icon="@android:drawable/ic_menu_manage"-->
+    <!--android:title="@string/action_filter"-->
+    <!--app:showAsAction="always">-->
+
+
+    <!--&gt;-->
+    <!--<menu >-->
+        <!--<item-->
+            <!--android:id="@+id/action_delete_all"-->
+
+            <!--android:title="Delete All"-->
+            <!--android:visible="true"-->
+            <!--android:icon="@android:drawable/ic_delete"-->
+            <!--android:checkable="false"-->
+            <!--android:enabled="false"></item>-->
+        <!--<item android:id="@+id/action_reserved"-->
+            <!--android:title="Reserved"-->
+            <!--android:visible="true"-->
+            <!--android:icon="@android:drawable/ic_menu_search"-->
+            <!--app:showAsAction=""></item>-->
+    <!--</menu>-->
+<!--</item>-->
+
+
+<!--</menu>-->

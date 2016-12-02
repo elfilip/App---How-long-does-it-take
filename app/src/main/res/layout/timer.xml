@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/blue_gradient">
+        android:background="@drawable/blue_gradient_reversed">
 
         <Chronometer
             android:layout_width="wrap_content"
@@ -62,12 +62,21 @@
     </LinearLayout>
 
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_notes_buttons"
+        android:background="@drawable/blue_gradient_reversed2">
+        >
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout_notes"
-        android:background="@android:color/black">
+       >
 
         <EditText
             android:layout_width="wrap_content"
@@ -91,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_layout"
-        android:background="@android:color/black"
+
         >
 
         <Button
@@ -119,5 +128,5 @@
             android:background="@drawable/button_border"
             android:textColor="@android:color/white" />
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>
