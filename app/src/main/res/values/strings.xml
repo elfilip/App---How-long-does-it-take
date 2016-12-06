@@ -28,4 +28,9 @@
     <string name="appName">How long does it take?</string>
     <string name="usageConditions">Usage Conditions</string>
     <string name="report_issue">Report Issue</string>
+    <string name="changelog">Change Log</string>
+    <string name="versionText">Version</string>
+    <string name="language">Change language</string>
+    <string name="show_icon">Show icon in status bar</string>
+
 </resources>

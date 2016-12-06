@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_rew"
+            android:id="@+id/but_previous"
+            android:layout_weight="0.1"
+            android:background="@android:color/transparent" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"/>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_ff"
+            android:id="@+id/but_next"
+            android:layout_weight="0.1"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/help_gallery">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:srcCompat="@drawable/help1_low"
+                android:id="@+id/imageView3"
+                android:layout_weight="0.9" />
+
+            <TextView
+                android:text="Text for main menu"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/textView11"
+                android:layout_weight="0.1"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:srcCompat="@drawable/help2_low"
+                android:id="@+id/imageView4"
+                android:layout_weight="0.9" />
+            <TextView
+                android:text="Text for timer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/textView11a"
+                android:layout_weight="0.1"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:srcCompat="@drawable/help3_low"
+                android:id="@+id/imageView5"
+                android:layout_weight="0.9"
+                />
+            <TextView
+                android:text="Text for details"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/textView11b"
+                android:layout_weight="0.1"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="18sp"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </ViewFlipper>
+</LinearLayout>

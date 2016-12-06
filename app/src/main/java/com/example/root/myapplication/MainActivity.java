@@ -109,11 +109,19 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
                 dialog.show(getFragmentManager(), "NoticeDialogFragment");
                 return true;
 
-            case R.id.action_about:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                return true;
 
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.action_help:
+                Intent helpIntent = new Intent(this, HelpActivity.class);
+                startActivity(helpIntent);
+                return true;
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

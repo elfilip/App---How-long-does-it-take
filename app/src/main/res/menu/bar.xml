@@ -19,7 +19,7 @@
         android:title="@string/help"
         android:visible="true"
         android:icon="@android:drawable/ic_menu_search"></item>
-    <item android:id="@+id/settings"
+    <item android:id="@+id/action_settings"
         android:title="@string/settings"
         android:visible="true"
         android:icon="@android:drawable/ic_menu_search"></item>

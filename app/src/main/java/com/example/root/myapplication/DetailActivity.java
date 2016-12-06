@@ -105,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
         note.setText(currentAction.getNote());
         Toolbar myToolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(myToolbar);
-        this.setTitle("Action's Details");
+        this.setTitle(R.string.action_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
