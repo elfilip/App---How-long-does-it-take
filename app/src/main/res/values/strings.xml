@@ -32,5 +32,9 @@
     <string name="versionText">Version</string>
     <string name="language">Change language</string>
     <string name="show_icon">Show icon in status bar</string>
+    <string name="help1_text">Main menu. You can start a new action here.</string>
+    <string name="help2_text">Timer. You can watch a progress of a current action.</string>
+    <string name="help3_text">Action details. You can see some details about the action.</string>
+    <string name="help_default">No text here</string>
 
 </resources>

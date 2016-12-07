@@ -1,113 +1,102 @@
 package com.example.root.myapplication;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.ViewFlipper;
+
+import com.example.root.myapplication.fragment.HelpPagerAdapter;
 
 /**
- * Created by felias on 5.12.16.
+ * Created by felias on 7.12.16.
  */
 
 public class HelpActivity extends AppCompatActivity {
-    private ViewFlipper viewFlipper;
-    private float lastX;
-    private ProgressBar progressBar;
-    private int numberOfImages = 3;
-    private int partialProgress = 100 / numberOfImages;
-    private int currentImage = 1;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private ProgressBar progressBar;
+    private int partialProgress = 100 / HelpPagerAdapter.COUNT;
+    private ViewPager mViewPager;
+
+    public HelpActivity() {
+
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        viewFlipper = (ViewFlipper) findViewById(R.id.help_gallery);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.help_toolbar);
+        setSupportActionBar(myToolbar);
+        this.setTitle(R.string.about);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setMax(100);
         progressBar.setProgress(partialProgress);
+        HelpPagerAdapter adapter = new HelpPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.help_pager);
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                progressBar.setProgress((position + 1) * partialProgress);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         ImageButton previous = (ImageButton) findViewById(R.id.but_previous);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNextImage();
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
             }
         });
         ImageButton next = (ImageButton) findViewById(R.id.but_next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPrevImage();
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             }
+
         });
+
+
     }
 
-    // Using the following method, we will handle all screen swaps.
-    public boolean onTouchEvent(MotionEvent touchevent) {
-        switch (touchevent.getAction()) {
+    @Override
+    public void onBackPressed() {
 
-            case MotionEvent.ACTION_DOWN:
-                lastX = touchevent.getX();
-                break;
-            case MotionEvent.ACTION_UP:
-                float currentX = touchevent.getX();
-
-                // Handling left to right screen swap.
-                if (lastX < currentX) {
-                    showNextImage();
-
-                }
-
-                // Handling right to left screen swap.
-                if (lastX > currentX) {
-
-                    showPrevImage();
-                }
-                break;
+        if(mViewPager.getCurrentItem()==0){
+            finish();
         }
-        return false;
-    }
-
-    private void showNextImage(){
-        // If there aren't any other children, just break.
-        if (viewFlipper.getDisplayedChild() == 0)
-            return;
-
-        // Next screen comes in from left.
-        viewFlipper.setInAnimation(this, R.anim.slide_in_from_left);
-        // Current screen goes out from right.
-        viewFlipper.setOutAnimation(this, R.anim.slide_out_to_right);
-
-        // Display next screen.
-        viewFlipper.showNext();
-        if (currentImage > 1) {
-            currentImage--;
-            progressBar.setProgress(currentImage * partialProgress);
+        else{
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
         }
     }
 
-    private void showPrevImage() {
-        // If there is a child (to the left), kust break.
-        if (viewFlipper.getDisplayedChild() == 1)
-            return;
-
-        // Next screen comes in from right.
-        viewFlipper.setInAnimation(this, R.anim.slide_in_from_right);
-        // Current screen goes out from left.
-        viewFlipper.setOutAnimation(this, R.anim.slide_out_to_left);
-
-        // Display previous screen.
-        viewFlipper.showPrevious();
-        if (currentImage < numberOfImages - 1) {
-            currentImage++;
-            progressBar.setProgress(currentImage* partialProgress);
-        } else if (currentImage == numberOfImages - 1) {
-            progressBar.setProgress(100);
-            currentImage++;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 }
