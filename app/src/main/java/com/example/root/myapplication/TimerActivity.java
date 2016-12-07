@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.root.myapplication.entity.Action;
+import com.example.root.myapplication.entity.Measurement;
 import com.example.root.myapplication.util.MyApplication;
 
 import java.io.FileOutputStream;
@@ -139,34 +140,19 @@ public class TimerActivity extends AppCompatActivity {
         }else{
             noteText = "";
         }
-        Action action = new Action(actionNameVar, getTime(timer), new Date(),noteText);
+        Measurement mes = new Measurement(new Date(getTime(timer)), new Date(), noteText);
+        Action action = new Action(actionNameVar);
+        action.addMeasurement(mes);
+
         MyApplication app = MyApplication.getInstance(getApplicationContext().getFilesDir());
         app.addAction(action);
         app.deleteStatusFile();
         finish();
     }
 
-    private String getTime(Chronometer timer) {
-        long sec = (SystemClock.elapsedRealtime() - timer.getBase()) / 1000;
-        long seconds = sec % 60;
-        long minutes = (sec / 60) % 60;
-        long hours = (sec / 60) / 60;
-        StringBuilder result = new StringBuilder();
-        if (hours < 10) {
-            result.append("0");
-        }
-        result.append(hours);
-        result.append(":");
-        if (minutes < 10) {
-            result.append("0");
-        }
-        result.append(minutes);
-        result.append(":");
-        if (seconds < 10) {
-            result.append("0");
-        }
-        result.append(seconds);
-        return result.toString();
+    private long getTime(Chronometer timer) {
+        return (SystemClock.elapsedRealtime() - timer.getBase());
+
     }
 
     @Override

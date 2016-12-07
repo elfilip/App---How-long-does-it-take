@@ -88,21 +88,26 @@ public class DetailActivity extends AppCompatActivity {
                     editNoteButton.setImageResource(R.drawable.edit_image);
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(note.getWindowToken(), 0);
-                    app.updateActionNote(currentAction.getName(),note.getText().toString());
+                    if(currentAction.hasMoreMeasurements()==false) {
+                        app.updateActionNote(currentAction.getName(), 0, note.getText().toString());
+                    }else{
+
+                    }
                     setResult(DetailActivity.RESULT_CODE_UPDATE);
                 }
                 isNoteEdit=!isNoteEdit;
             }
         });
-
-        name.setText(currentAction.getName());
-        name.setEnabled(false);
-        name_editText.setText(currentAction.getName());
-        time.setText(currentAction.getTime());
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String dateText = sdf.format(currentAction.getDate());
-        date.setText(dateText);
-        note.setText(currentAction.getNote());
+        if(currentAction.hasMoreMeasurements()==false) {
+            name.setText(currentAction.getName());
+            name.setEnabled(false);
+            name_editText.setText(currentAction.getName());
+            time.setText(currentAction.getMeasurement().get(0).getTimeText());
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String dateText = sdf.format(currentAction.getMeasurement().get(0).getDate());
+            date.setText(dateText);
+            note.setText(currentAction.getMeasurement().get(0).getNote());
+        }
         Toolbar myToolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(myToolbar);
         this.setTitle(R.string.action_details);

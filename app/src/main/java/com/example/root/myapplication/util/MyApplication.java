@@ -58,6 +58,7 @@ public class MyApplication {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return new LinkedList<>();
         }
         if (result == null)
             return new LinkedList<>();
@@ -230,12 +231,12 @@ public class MyApplication {
         saveActions();
     }
 
-    public void updateActionNote(String actionName, String newNote){
+    public void updateActionNote(String actionName, int pos, String newNote){
         Action a = getAction(actionName);
         if (a == null) {
             throw new RuntimeException("Updating unknown action");
         }
-        a.setNote(newNote);
+        a.getMeasurement().get(pos).setNote(newNote);
         saveActions();
     }
 

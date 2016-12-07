@@ -99,74 +99,75 @@ public class ActionListAdapter extends BaseAdapter {
         rootLayout.addView(iw);
         rootLayout.setBackgroundColor(Color.WHITE);
 
-        TextView name = new TextView(context);
-        name.setText(filtered.get(row).getName());
-        name.setTextSize(19f);
-        name.setTextColor(Color.BLACK);
-        name.setSingleLine(true);
-        name.setHorizontallyScrolling(true);
-        name.setMovementMethod(new ScrollingMovementMethod());
-        name.setPadding(0, 0, 0, 0);
+        Action currentAction = filtered.get(row);
+        if(currentAction.hasMoreMeasurements()==false) {
+            TextView name = new TextView(context);
+            name.setText(currentAction.getName());
+            name.setTextSize(19f);
+            name.setTextColor(Color.BLACK);
+            name.setSingleLine(true);
+            name.setHorizontallyScrolling(true);
+            name.setMovementMethod(new ScrollingMovementMethod());
+            name.setPadding(0, 0, 0, 0);
 
-       // configureView(name, row, viewGroup);
-        nameTimeLayout.addView(name);
+            // configureView(name, row, viewGroup);
+            nameTimeLayout.addView(name);
 
-        TextView time = new TextView(context);
-        time.setText(filtered.get(row).getTime());
-        time.setTextSize(15f);
-        time.setTextColor(Color.GRAY);
-        time.setPadding(0, 0, 0, 0);
-       // configureView(time, row, viewGroup);
-        nameTimeLayout.addView(time);
-        rootLayout.addView(nameTimeLayout);
-
-
-        LinearLayout buttonLayout = new LinearLayout(context);
-        buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
-        ViewGroup.LayoutParams buttonLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        buttonLayout.setLayoutParams(buttonLayoutParams);
-        buttonLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-        final ImageButton delete = new ImageButton(context);
-        Drawable icon = context.getResources().getDrawable(R.drawable.delete);
-        delete.setImageDrawable(icon);
-        delete.setBackgroundColor(Color.TRANSPARENT);
-        delete.setPadding(0, 0, 40, 0);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyApplication app = MyApplication.getInstance(context.getFilesDir());
-                app.deleteAction(filtered.get(row).getName());
-                if (filtered != app.getActions())
-                    filtered.remove(row);
-                notifyDataSetChanged();
-            }
-        });
-        LinearLayout.LayoutParams deleteparams=new LinearLayout.LayoutParams(butonSize,butonSize);
-        delete.setLayoutParams(deleteparams);
-        delete.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            TextView time = new TextView(context);
+            time.setText(currentAction.getMeasurement().get(0).getTimeText());
+            time.setTextSize(15f);
+            time.setTextColor(Color.GRAY);
+            time.setPadding(0, 0, 0, 0);
+            // configureView(time, row, viewGroup);
+            nameTimeLayout.addView(time);
+            rootLayout.addView(nameTimeLayout);
 
 
+            LinearLayout buttonLayout = new LinearLayout(context);
+            buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
+            ViewGroup.LayoutParams buttonLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            buttonLayout.setLayoutParams(buttonLayoutParams);
+            buttonLayout.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+            final ImageButton delete = new ImageButton(context);
+            Drawable icon = context.getResources().getDrawable(R.drawable.delete);
+            delete.setImageDrawable(icon);
+            delete.setBackgroundColor(Color.TRANSPARENT);
+            delete.setPadding(0, 0, 40, 0);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyApplication app = MyApplication.getInstance(context.getFilesDir());
+                    app.deleteAction(filtered.get(row).getName());
+                    if (filtered != app.getActions())
+                        filtered.remove(row);
+                    notifyDataSetChanged();
+                }
+            });
+            LinearLayout.LayoutParams deleteparams = new LinearLayout.LayoutParams(butonSize, butonSize);
+            delete.setLayoutParams(deleteparams);
+            delete.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-        final ImageButton detail = new ImageButton(context);
-        Drawable iconDetail = context.getResources().getDrawable(R.drawable.info);
 
-        detail.setImageDrawable(iconDetail);
-        detail.setBackgroundColor(Color.TRANSPARENT);
-       // detail.setTint(android.R.color.holo_blue_dark);
-        detail.setPadding(0,0,40,0);
-        detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDetailActivity(filtered.get(row).getName());
-            }
-        });
-        LinearLayout.LayoutParams detailparams=new LinearLayout.LayoutParams(butonSize,butonSize);
-        detail.setLayoutParams(detailparams);
-        detail.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        buttonLayout.addView(detail);
-        buttonLayout.addView(delete);
-        rootLayout.addView(buttonLayout);
+            final ImageButton detail = new ImageButton(context);
+            Drawable iconDetail = context.getResources().getDrawable(R.drawable.info);
 
+            detail.setImageDrawable(iconDetail);
+            detail.setBackgroundColor(Color.TRANSPARENT);
+            // detail.setTint(android.R.color.holo_blue_dark);
+            detail.setPadding(0, 0, 40, 0);
+            detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDetailActivity(filtered.get(row).getName());
+                }
+            });
+            LinearLayout.LayoutParams detailparams = new LinearLayout.LayoutParams(butonSize, butonSize);
+            detail.setLayoutParams(detailparams);
+            detail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            buttonLayout.addView(detail);
+            buttonLayout.addView(delete);
+            rootLayout.addView(buttonLayout);
+        }
         return rootLayout;
     }
 

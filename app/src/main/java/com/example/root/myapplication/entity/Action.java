@@ -1,6 +1,8 @@
 package com.example.root.myapplication.entity;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by felias on 8.11.16.
@@ -8,20 +10,11 @@ import java.util.Date;
 
 public class Action {
     private String name;
-    private String time;
-    private Date date;
-    private String note;
+    private List<Measurement> measurements;
 
-    public Action(String name, String time, Date date) {
-        this(name, time, date, "");
-
-    }
-
-    public Action(String name, String time, Date date, String note) {
+    public Action(String name) {
         this.name = name;
-        this.time = time;
-        this.date = date;
-        this.note=note;
+        measurements = new LinkedList<>();
     }
 
     public String getName() {
@@ -32,27 +25,28 @@ public class Action {
         this.name = name;
     }
 
-    public String getTime() {
-        return time;
+    public List<Measurement> getMeasurement() {
+        return measurements;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setMasurement(List<Measurement> measurements) {
+        this.measurements = measurements;
     }
 
-    public Date getDate() {
-        return date;
+    public void addMeasurement(Measurement measurement){
+        measurements.add(measurement);
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public Date getAverageTime() {
+        long sum=0;
+        for (Measurement m : measurements) {
+            sum = sum + m.getTime().getTime();
+        }
+        sum = sum / measurements.size();
+        return new Date(sum);
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    public boolean hasMoreMeasurements() {
+        return measurements.size() >1;
     }
 }
