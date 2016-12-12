@@ -9,6 +9,7 @@ public class Status {
     private String actionName;
     private long timerBase;
     private int requestCode;
+    private String note;
 
     public Status(String actionName, long timerBase) {
         this.actionName = actionName;
@@ -44,4 +45,8 @@ public class Status {
     public void setRequestCode(int requestCode) {
         this.requestCode = requestCode;
     }
+
+    public void setNote(String note) {this.note=note; }
+
+    public String getNote() {return note; }
 }

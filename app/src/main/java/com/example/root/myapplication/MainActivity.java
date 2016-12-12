@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
             Utils.showAlertDialog(this,R.string.invalid_input,R.string.name_exits,R.string.ok);
             return;
         }
-        app.saveStatus(new  Status(message, SystemClock.elapsedRealtime()));
-        intent.putExtra(ACTION_NAME, message);
-        intent.putExtra(Constants.REQUEST_CODE, CODE);
+        app.saveStatus(new  Status(message, SystemClock.elapsedRealtime(),CODE));
         startActivityForResult(intent,CODE);
 
     }
@@ -150,18 +148,12 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     }
 
     private void checkIfTimerCounts(){
-        File file = new File(getFilesDir(), Constants.STATUS_FILE);
-        Status status = app.loadStatus();
-        if (status != null) {
-            Intent intent = new Intent(this, TimerActivity.class);
-            EditText editText = (EditText) findViewById(R.id.edit_message);
-            intent.putExtra(ACTION_NAME, status.getActionName());
-            intent.putExtra(TIMER_BASE, status.getTimerBase());
-            if (status.getRequestCode() != -1) {
-                intent.putExtra(Constants.REQUEST_CODE, DetailActivity.CODE);
+        
+            if(app.statusExist()) {
+                Intent intent = new Intent(this, TimerActivity.class);
+                startActivityForResult(intent, CODE);
             }
-            startActivityForResult(intent,CODE);
-        }
+       // }
     }
 
     private void applyFilterSearch(){

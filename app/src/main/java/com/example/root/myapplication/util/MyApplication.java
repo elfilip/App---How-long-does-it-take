@@ -27,6 +27,7 @@ public class MyApplication {
     private final String timerBaseProp = "timerBase";
     private final String actionNameProp = "actionName";
     private final String requestCodeProp = "request_code";
+    private final String noteProp = "note";
     private List<Action> actions;
     private File rootName;
     private Properties status = new Properties();
@@ -165,6 +166,8 @@ public class MyApplication {
         status.put(actionNameProp, timerStatus.getActionName());
         status.put(timerBaseProp, String.valueOf(timerStatus.getTimerBase()));
         status.put(requestCodeProp, String.valueOf(timerStatus.getRequestCode()));
+        if(timerStatus.getNote()!=null)
+            status.put(noteProp, timerStatus.getNote());
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
@@ -194,11 +197,18 @@ public class MyApplication {
             is = new FileInputStream(file);
             status.load(is);
 
-        timerStatus = new Status((String) status.getProperty(actionNameProp), Long.parseLong((String)status.get(timerBaseProp)),Integer.parseInt(status.getProperty(requestCodeProp)));
+        timerStatus = new Status((String) status.getProperty(actionNameProp),
+                          Long.parseLong((String)status.get(timerBaseProp)),
+                          Integer.parseInt(status.getProperty(requestCodeProp)));
+            timerStatus.setNote(status.getProperty(noteProp));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return timerStatus;
+    }
+
+    public boolean statusExist() {
+        return (new File(rootName,Constants.STATUS_FILE)).exists();
     }
 
     public void deleteStatusFile() {

@@ -10,10 +10,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Measurement;
+import com.example.root.myapplication.entity.Status;
 import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.util.MyApplication;
 
@@ -28,11 +30,13 @@ public class TimerActivity extends AppCompatActivity {
     private Chronometer timer;
     private boolean paused = false;
     private long timeWhenStopped = 0;
-    private String actionNameVar;
+
     private MyApplication app;
     private EditText noteView;
     public static final int RESULT_CODE =2;
     private int request_code;
+    private boolean isNoteEdit=false;
+    private Status currentStatus;
 
 
 
@@ -40,25 +44,37 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
+            app = MyApplication.getInstance(getApplicationContext().getFilesDir());
             setContentView(R.layout.timer);
             Intent intent = getIntent();
-            String message = intent.getStringExtra(MainActivity.ACTION_NAME);
-            String nameUpperCase=message.substring(0,1).toUpperCase().concat(message.substring(1));
-            long timerBase=intent.getLongExtra(MainActivity.TIMER_BASE,-1);
-            request_code = intent.getIntExtra(Constants.REQUEST_CODE,-1);
+            System.out.println("oncreate0");
+
+            noteView = (EditText) findViewById(R.id.timer_note);
+
+            if(app.statusExist()==true){
+                currentStatus=app.loadStatus();
+            }else{
+                System.out.println("No status file");
+                throw new RuntimeException("Status file must exist");
+            }
+
+            System.out.println("jmeno je " + currentStatus.getActionName());
+
+            String nameUpperCase=currentStatus.getActionName().substring(0,1).toUpperCase().concat(currentStatus.getActionName().substring(1));
+            long timerBase=currentStatus.getTimerBase();
+            request_code = currentStatus.getRequestCode();
+            if(currentStatus.getNote()!=null && currentStatus.getNote().length()!=0){
+                noteView.setText(currentStatus.getNote());
+            }
+            System.out.println("oncreate1");
             TextView actionName = (TextView) findViewById(R.id.actionName);
-          //  SpannableString actionNameSpan = new SpannableString(nameUpperCase);
-            //actionNameSpan.setSpan(new UnderlineSpan(), 0, nameUpperCase.length(), 0);
-            //actionName.setText(actionNameSpan);
             actionName.setText(nameUpperCase);
-            actionNameVar = message;
             timer = (Chronometer)findViewById(R.id.chronometer);
             if (timerBase != -1) {
                 timer.setBase(timerBase);
             }
-            System.out.println("TimerActivityOnCreate");
-            app = MyApplication.getInstance(getApplicationContext().getFilesDir());
-            noteView = (EditText) findViewById(R.id.timer_note);
+            final ImageButton noteButton = (ImageButton) findViewById(R.id.note_ok_button);
+
             noteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -67,6 +83,27 @@ public class TimerActivity extends AppCompatActivity {
                     noteView.requestFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(noteView, InputMethodManager.SHOW_IMPLICIT);
+                    isNoteEdit=!isNoteEdit;
+                    noteButton.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+            noteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    noteView.setFocusableInTouchMode(false);
+                    noteView.setFocusable(false);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(noteView.getWindowToken(), 0);
+                    isNoteEdit=!isNoteEdit;
+                    noteButton.setVisibility(View.GONE);
+                    if(noteView.getText().toString().trim().length()!=0) {
+                        currentStatus.setNote(noteView.getText().toString().trim());
+                    }
+                    app.saveStatus(currentStatus);
+                    isNoteEdit=!isNoteEdit;
+                    noteButton.setVisibility(View.GONE);
                 }
             });
             final TimerCanvas customCanvas = (TimerCanvas) findViewById(R.id.signature_canvas);
@@ -98,16 +135,16 @@ public class TimerActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putLong("timerBase", timer.getBase());
-        System.out.println("TimerActivitySave");
+     //   savedInstanceState.putLong("timerBase", timer.getBase());
+     //   System.out.println("TimerActivitySave");
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         try {
-            System.out.println("TimerActivityRestore");
-            timer.setBase(savedInstanceState.getLong("timerBase"));
+          //  System.out.println("TimerActivityRestore");
+          //  timer.setBase(savedInstanceState.getLong("timerBase"));
             super.onRestoreInstanceState(savedInstanceState);
         }catch(Exception e){
             e.printStackTrace();
@@ -147,9 +184,9 @@ public class TimerActivity extends AppCompatActivity {
         Measurement mes = new Measurement(new Date(getTime(timer)), new Date(), noteText);
         Action action=null;
         if(request_code == DetailActivity.CODE) {
-            action = app.getAction(actionNameVar);
+            action = app.getAction(currentStatus.getActionName());
         }else{
-            action = new Action(actionNameVar);
+            action = new Action(currentStatus.getActionName());
             app.addAction(action);
         }
         assert action!=null;
