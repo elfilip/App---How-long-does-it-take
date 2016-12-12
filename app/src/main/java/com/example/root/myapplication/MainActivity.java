@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     }
 
     private void checkIfTimerCounts(){
-        
+
             if(app.statusExist()) {
                 Intent intent = new Intent(this, TimerActivity.class);
                 startActivityForResult(intent, CODE);

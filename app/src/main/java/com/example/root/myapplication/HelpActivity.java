@@ -31,7 +31,7 @@ public class HelpActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.help_toolbar);
         setSupportActionBar(myToolbar);
-        this.setTitle(R.string.about);
+        this.setTitle(R.string.help);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
