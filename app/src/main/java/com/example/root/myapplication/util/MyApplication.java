@@ -26,6 +26,7 @@ public class MyApplication {
     private final String statusFileName = "status.properties";
     private final String timerBaseProp = "timerBase";
     private final String actionNameProp = "actionName";
+    private final String requestCodeProp = "request_code";
     private List<Action> actions;
     private File rootName;
     private Properties status = new Properties();
@@ -50,6 +51,7 @@ public class MyApplication {
                 file.createNewFile();
 
             }
+            //file.delete();
             readFile(file);
             FileReader fr = new FileReader(file);
             Gson g = new Gson();
@@ -162,6 +164,7 @@ public class MyApplication {
         File file = new File(rootName, Constants.STATUS_FILE);
         status.put(actionNameProp, timerStatus.getActionName());
         status.put(timerBaseProp, String.valueOf(timerStatus.getTimerBase()));
+        status.put(requestCodeProp, String.valueOf(timerStatus.getRequestCode()));
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
@@ -191,7 +194,7 @@ public class MyApplication {
             is = new FileInputStream(file);
             status.load(is);
 
-        timerStatus = new Status((String) status.getProperty(actionNameProp), Long.parseLong((String)status.get(timerBaseProp)));
+        timerStatus = new Status((String) status.getProperty(actionNameProp), Long.parseLong((String)status.get(timerBaseProp)),Integer.parseInt(status.getProperty(requestCodeProp)));
         } catch (Exception e) {
             e.printStackTrace();
         }

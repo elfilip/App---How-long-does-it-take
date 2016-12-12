@@ -18,11 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.root.myapplication.DetailActivity;
+import com.example.root.myapplication.MainActivity;
 import com.example.root.myapplication.R;
 import com.example.root.myapplication.TimerActivity;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.util.MyApplication;
+import com.example.root.myapplication.util.Utils;
 
 import java.util.List;
 import java.util.Map;
@@ -90,7 +92,12 @@ public class ActionListAdapter extends BaseAdapter {
         rootLayout.setOrientation(LinearLayout.HORIZONTAL);
         rootLayout.setGravity(Gravity.CENTER);
         ImageView iw = new ImageView(context);
-        iw.setImageResource(R.drawable.cifernik);
+        Action currentAction = filtered.get(row);
+        if(currentAction.hasMoreMeasurements()==false) {
+            iw.setImageResource(R.drawable.cifernik);
+        }else{
+            iw.setImageResource(R.drawable.cifernik_trio);
+        }
         iw.setPadding(10, 0, 40, 0);
         iw.setBackgroundColor(Color.TRANSPARENT);
         LinearLayout.LayoutParams iwparams=new LinearLayout.LayoutParams(iconSize,iconSize);
@@ -99,8 +106,8 @@ public class ActionListAdapter extends BaseAdapter {
         rootLayout.addView(iw);
         rootLayout.setBackgroundColor(Color.WHITE);
 
-        Action currentAction = filtered.get(row);
-        if(currentAction.hasMoreMeasurements()==false) {
+
+
             TextView name = new TextView(context);
             name.setText(currentAction.getName());
             name.setTextSize(19f);
@@ -114,7 +121,14 @@ public class ActionListAdapter extends BaseAdapter {
             nameTimeLayout.addView(name);
 
             TextView time = new TextView(context);
+        if(currentAction.hasMoreMeasurements()==false) {
             time.setText(currentAction.getMeasurement().get(0).getTimeText());
+        }
+        else{
+
+            String dateText = Utils.convertTimeToText(currentAction.getAverageTime()) + " ("+context.getResources().getString(R.string.average)+")";
+            time.setText(dateText);
+        }
             time.setTextSize(15f);
             time.setTextColor(Color.GRAY);
             time.setPadding(0, 0, 0, 0);
@@ -167,14 +181,14 @@ public class ActionListAdapter extends BaseAdapter {
             buttonLayout.addView(detail);
             buttonLayout.addView(delete);
             rootLayout.addView(buttonLayout);
-        }
+
         return rootLayout;
     }
 
     private void showDetailActivity(String name) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(Constants.ACTION_NAME, name);
-        context.startActivityForResult(intent, DetailActivity.CODE);
+        context.startActivityForResult(intent,  MainActivity.CODE);
         // context.startActivity(intent);
     }
 

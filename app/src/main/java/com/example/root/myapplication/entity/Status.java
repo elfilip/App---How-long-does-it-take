@@ -8,10 +8,17 @@ public class Status {
 
     private String actionName;
     private long timerBase;
+    private int requestCode;
 
     public Status(String actionName, long timerBase) {
         this.actionName = actionName;
         this.timerBase = timerBase;
+        this.requestCode=-1;
+    }
+    public Status(String actionName, long timerBase,int requestCode) {
+        this.actionName = actionName;
+        this.timerBase = timerBase;
+        this.requestCode=requestCode;
     }
 
     public String getActionName() {
@@ -28,5 +35,13 @@ public class Status {
 
     public void setTimerBase(long timerBase) {
         this.timerBase = timerBase;
+    }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
     }
 }

@@ -33,14 +33,10 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     public final static String TIMER_BASE = "com.example.myfirstapp.TIMERBASE";
     private MyApplication app;
     private ActionListAdapter adapter ;
+    public final static int CODE=101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(savedInstanceState!=null){
-            System.out.println("MainActivitySavedBundle");
-        }else{
-            System.out.println("MainActivityNull");
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewGroup layout=(ViewGroup)findViewById(R.id.action_list);
@@ -90,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         }
         app.saveStatus(new  Status(message, SystemClock.elapsedRealtime()));
         intent.putExtra(ACTION_NAME, message);
-        startActivityForResult(intent,101);
+        intent.putExtra(Constants.REQUEST_CODE, CODE);
+        startActivityForResult(intent,CODE);
 
     }
 
@@ -160,7 +157,10 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
             EditText editText = (EditText) findViewById(R.id.edit_message);
             intent.putExtra(ACTION_NAME, status.getActionName());
             intent.putExtra(TIMER_BASE, status.getTimerBase());
-            startActivity(intent);
+            if (status.getRequestCode() != -1) {
+                intent.putExtra(Constants.REQUEST_CODE, DetailActivity.CODE);
+            }
+            startActivityForResult(intent,CODE);
         }
     }
 
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
-        if (requestCode == DetailActivity.CODE) {
+        if (requestCode == MainActivity.CODE) {
             // Make sure the request was successful
             if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {
                 adapter.notifyDataSetChanged();

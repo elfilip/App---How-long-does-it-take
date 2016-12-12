@@ -36,5 +36,9 @@
     <string name="help2_text">Timer. You can watch a progress of a current action.</string>
     <string name="help3_text">Action details. You can see some details about the action.</string>
     <string name="help_default">No text here</string>
+    <string name="add_new_measure">Add a new measuring</string>
+    <string name="cant_delete">Can\'t delete</string>
+    <string name="cant_delete_last">Can\'t delete last measurement.</string>
+    <string name="average">average</string>
 
 </resources>

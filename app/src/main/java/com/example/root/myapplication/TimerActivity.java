@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Measurement;
+import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.util.MyApplication;
 
 import java.io.FileOutputStream;
@@ -31,6 +32,7 @@ public class TimerActivity extends AppCompatActivity {
     private MyApplication app;
     private EditText noteView;
     public static final int RESULT_CODE =2;
+    private int request_code;
 
 
 
@@ -43,6 +45,7 @@ public class TimerActivity extends AppCompatActivity {
             String message = intent.getStringExtra(MainActivity.ACTION_NAME);
             String nameUpperCase=message.substring(0,1).toUpperCase().concat(message.substring(1));
             long timerBase=intent.getLongExtra(MainActivity.TIMER_BASE,-1);
+            request_code = intent.getIntExtra(Constants.REQUEST_CODE,-1);
             TextView actionName = (TextView) findViewById(R.id.actionName);
           //  SpannableString actionNameSpan = new SpannableString(nameUpperCase);
             //actionNameSpan.setSpan(new UnderlineSpan(), 0, nameUpperCase.length(), 0);
@@ -132,6 +135,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     public void stopClick(View view) {
+
         timer.stop();
         FileOutputStream outputStream = null;
         String noteText;
@@ -141,12 +145,17 @@ public class TimerActivity extends AppCompatActivity {
             noteText = "";
         }
         Measurement mes = new Measurement(new Date(getTime(timer)), new Date(), noteText);
-        Action action = new Action(actionNameVar);
+        Action action=null;
+        if(request_code == DetailActivity.CODE) {
+            action = app.getAction(actionNameVar);
+        }else{
+            action = new Action(actionNameVar);
+            app.addAction(action);
+        }
+        assert action!=null;
         action.addMeasurement(mes);
-
-        MyApplication app = MyApplication.getInstance(getApplicationContext().getFilesDir());
-        app.addAction(action);
         app.deleteStatusFile();
+        app.saveActions();
         finish();
     }
 

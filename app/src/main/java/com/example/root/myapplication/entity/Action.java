@@ -1,5 +1,6 @@
 package com.example.root.myapplication.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,13 +9,17 @@ import java.util.List;
  * Created by felias on 8.11.16.
  */
 
-public class Action {
+public class Action implements Serializable{
     private String name;
     private List<Measurement> measurements;
 
     public Action(String name) {
         this.name = name;
         measurements = new LinkedList<>();
+    }
+
+    public Action() {
+
     }
 
     public String getName() {
@@ -29,7 +34,7 @@ public class Action {
         return measurements;
     }
 
-    public void setMasurement(List<Measurement> measurements) {
+    public void setMeasurements(List<Measurement> measurements) {
         this.measurements = measurements;
     }
 
@@ -48,5 +53,9 @@ public class Action {
 
     public boolean hasMoreMeasurements() {
         return measurements.size() >1;
+    }
+
+    public void deleteMeasurement(int pos){
+        measurements.remove(pos);
     }
 }

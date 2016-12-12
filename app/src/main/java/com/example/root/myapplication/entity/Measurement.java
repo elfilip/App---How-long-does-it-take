@@ -2,13 +2,16 @@ package com.example.root.myapplication.entity;
 
 import android.os.SystemClock;
 
+import com.example.root.myapplication.util.Utils;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by felias on 6.12.16.
  */
 
-public class Measurement {
+public class Measurement implements Serializable{
 
     private Date time;
     private String timeText;
@@ -57,26 +60,7 @@ public class Measurement {
     }
 
     private String convertTimeToText(Date time) {
-        long sec = time.getTime() / 1000;
-        long seconds = sec % 60;
-        long minutes = (sec / 60) % 60;
-        long hours = (sec / 60) / 60;
-        StringBuilder result = new StringBuilder();
-        if (hours < 10) {
-            result.append("0");
-        }
-        result.append(hours);
-        result.append(":");
-        if (minutes < 10) {
-            result.append("0");
-        }
-        result.append(minutes);
-        result.append(":");
-        if (seconds < 10) {
-            result.append("0");
-        }
-        result.append(seconds);
-        return result.toString();
+        return Utils.convertTimeToText(time);
     }
 }
 
