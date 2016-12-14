@@ -20,48 +20,46 @@ import com.example.root.myapplication.dialog.DeleteDialog;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
 import com.example.root.myapplication.fragment.ActionListAdapter;
-import com.example.root.myapplication.util.Constants;
-import com.example.root.myapplication.util.MyApplication;
+import com.example.root.myapplication.storage.FileStorage;
+import com.example.root.myapplication.service.AppService;
 import com.example.root.myapplication.util.Utils;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Main application activity. Shows list of all actions.
+ *
+ */
 public class MainActivity extends AppCompatActivity implements DeleteDialog.DeleteAllDialogListener {
-    public final static String ACTION_NAME = "com.example.myfirstapp.MESSAGE";
-    public final static String TIMER_BASE = "com.example.myfirstapp.TIMERBASE";
-    private MyApplication app;
-    private ActionListAdapter adapter ;
-    public final static int CODE=101;
+
+    private AppService app;
+    private ActionListAdapter adapter; //adapter for displaying list of actions
+    public final static int CODE=101; //request code for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewGroup layout=(ViewGroup)findViewById(R.id.action_list);
+
+        app = AppService.getInstance();
+        if(!app.isStorageSet()){
+            app.setStorage(new FileStorage(getApplicationContext().getFilesDir()));
+        }
+
+        //creates list of actions
+        createList(layout);
+        //checks whether timers is started and opens timer activity if so
+        checkIfTimerCounts();
+        //filters list of actions based on the search field
+        applyFilterSearch();
+
+        //Configure toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setIcon(android.R.drawable.ic_menu_myplaces);
-        app = MyApplication.getInstance(getApplicationContext().getFilesDir());
-        createList(layout);
-        checkIfTimerCounts();
-        applyFilterSearch();
 
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putLong("AAA", 10000);
-        System.out.println("MainActivitySave");
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        System.out.println("MainActivityRestore");
-
-        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -89,11 +87,6 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
     }
 
-    public void getTestX(View view){
-        Intent intent=new Intent(this,TestActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         System.out.println("Options selected");
@@ -102,8 +95,6 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
                 DialogFragment dialog = new DeleteDialog();
                 dialog.show(getFragmentManager(), "NoticeDialogFragment");
                 return true;
-
-
             case R.id.action_about:
                 Intent aboutIntent = new Intent(this, AboutActivity.class);
                 startActivity(aboutIntent);
@@ -124,11 +115,21 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         }
     }
 
+    /**
+     * Called when user clicks OK on delete all popup
+     *
+     * @param fragment
+     */
     public void okClick(DialogFragment fragment){
         app.deleteAllActions();
         deleteAllActionViews();
     }
 
+    /**
+     * Called when user click CANCEL on delete all popup
+     *
+     * @param fragment
+     */
     public void cancelClick(DialogFragment fragment){
         fragment.dismiss();
     }
@@ -148,12 +149,10 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     }
 
     private void checkIfTimerCounts(){
-
             if(app.statusExist()) {
                 Intent intent = new Intent(this, TimerActivity.class);
                 startActivityForResult(intent, CODE);
             }
-       // }
     }
 
     private void applyFilterSearch(){
@@ -192,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == MainActivity.CODE) {
-            // Make sure the request was successful
+            // Update list of actions if it changed
             if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {
                 adapter.notifyDataSetChanged();
             }

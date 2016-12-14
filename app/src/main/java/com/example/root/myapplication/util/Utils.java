@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -47,5 +50,34 @@ public class Utils {
         }
         result.append(seconds);
         return result.toString();
+    }
+
+    public static String readFile(File file) {
+        FileInputStream fis = null;
+        String str = "";
+
+        try {
+            fis = new FileInputStream(file);
+            int content;
+            while ((content = fis.read()) != -1) {
+                // convert to char and display it
+                str += (char) content;
+            }
+
+            System.out.println("After reading file");
+            System.out.println(str);
+            return str;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null)
+                    fis.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
     }
 }

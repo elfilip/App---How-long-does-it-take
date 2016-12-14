@@ -20,7 +20,7 @@ import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
 import com.example.root.myapplication.fragment.DetailCardsAdapter;
 import com.example.root.myapplication.util.Constants;
-import com.example.root.myapplication.util.MyApplication;
+import com.example.root.myapplication.service.AppService;
 import com.example.root.myapplication.util.Utils;
 
 /**
@@ -29,7 +29,7 @@ import com.example.root.myapplication.util.Utils;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private MyApplication app;
+    private AppService app;
     private boolean isNameEdit=false;
     private TextView measuringCounter;
     private ViewPager cardsPager;
@@ -44,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        app=MyApplication.getInstance(getFilesDir());
+        app= AppService.getInstance();
         setContentView(R.layout.action_details);
         Intent intent = getIntent();
         String actionName = intent.getStringExtra(Constants.ACTION_NAME);
@@ -92,8 +92,6 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 app.saveStatus(new  Status(currentAction.getName(), SystemClock.elapsedRealtime(),CODE));
                 Intent intent = new Intent(getApplicationContext(), TimerActivity.class);
-                intent.putExtra(MainActivity.ACTION_NAME, currentAction.getName());
-                intent.putExtra(Constants.REQUEST_CODE, CODE);
                 startActivityForResult(intent,CODE);
                 setResult(DetailActivity.RESULT_CODE_UPDATE);
             }
