@@ -1,4 +1,4 @@
-package com.example.root.myapplication.util;
+package com.example.root.myapplication.storage;
 
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
@@ -11,46 +11,39 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
 /**
- * Created by felias on 8.11.16.
+ * Created by felias on 13.12.16.
  */
 
-public class MyApplication {
+public class FileStorage implements Storage{
 
-    private static MyApplication instance;
-    private final String statusFileName = "status.properties";
-    private final String timerBaseProp = "timerBase";
-    private final String actionNameProp = "actionName";
-    private final String requestCodeProp = "request_code";
-    private final String noteProp = "note";
+
+
+    private final String TIMER_PROP_NAME = "timerBase";
+    private final String ACTION_NAME_PROP_NAME = "actionName";
+    private final String REQ_CODE_PROP_NAME = "request_code";
+    private final String NOTE_PROP_NAME = "note";
+    private final String ACTION_FILE="actions.json";
+    private final String STATUS_FILE="status.properties";
+
     private List<Action> actions;
-    private File rootName;
-    private Properties status = new Properties();
-    private MyApplication() {
+    private File rootNameDir;
 
+
+    public FileStorage(File rootNameDir) {
+        this.rootNameDir =rootNameDir;
     }
 
-    public static MyApplication getInstance(File root) {
-        if (instance == null) {
-            instance = new MyApplication();
-            instance.rootName = root;
-        }
-        return instance;
-    }
-
-    private List<Action> loadActions() {
-        File file = new File(rootName, Constants.ACTION_FILE);
+    public List<Action> loadActions() {
+        File file = new File(rootNameDir, ACTION_FILE);
         List<Action> result = null;
         try {
             if (!file.exists()) {
-
                 file.createNewFile();
-
             }
             //file.delete();
             readFile(file);
@@ -85,7 +78,7 @@ public class MyApplication {
         FileWriter f = null;
         try {
             String output = g.toJson(actions);
-            f = new FileWriter(new File(rootName, Constants.ACTION_FILE));
+            f = new FileWriter(new File(rootNameDir, ACTION_FILE));
             f.write(output.toCharArray());
             f.flush();
         } catch (Exception e) {
@@ -123,9 +116,6 @@ public class MyApplication {
                 // convert to char and display it
                 str += (char) content;
             }
-
-            System.out.println("After reading file");
-            System.out.println(str);
             return str;
 
         } catch (IOException e) {
@@ -142,8 +132,7 @@ public class MyApplication {
     }
 
     public void deleteAllActions() {
-        actions = new LinkedList<>();
-        Gson g = new Gson();
+        actions.clear();
         saveActions();
     }
 
@@ -162,12 +151,14 @@ public class MyApplication {
     }
 
     public void saveStatus(Status timerStatus) {
-        File file = new File(rootName, Constants.STATUS_FILE);
-        status.put(actionNameProp, timerStatus.getActionName());
-        status.put(timerBaseProp, String.valueOf(timerStatus.getTimerBase()));
-        status.put(requestCodeProp, String.valueOf(timerStatus.getRequestCode()));
-        if(timerStatus.getNote()!=null)
-            status.put(noteProp, timerStatus.getNote());
+        Properties status = new Properties();
+        File file = new File(rootNameDir, STATUS_FILE);
+        status.put(ACTION_NAME_PROP_NAME, timerStatus.getActionName());
+        status.put(TIMER_PROP_NAME, String.valueOf(timerStatus.getTimerBase()));
+        status.put(REQ_CODE_PROP_NAME, String.valueOf(timerStatus.getRequestCode()));
+        if(timerStatus.getNote()!=null) {
+            status.put(NOTE_PROP_NAME, timerStatus.getNote());
+        }
         FileOutputStream os = null;
         try {
             os = new FileOutputStream(file);
@@ -186,7 +177,7 @@ public class MyApplication {
     }
 
     public Status loadStatus() {
-        File file = new File(rootName, Constants.STATUS_FILE);
+        File file = new File(rootNameDir, STATUS_FILE);
         if(file.exists()==false){
             return null;
         }
@@ -197,10 +188,10 @@ public class MyApplication {
             is = new FileInputStream(file);
             status.load(is);
 
-        timerStatus = new Status((String) status.getProperty(actionNameProp),
-                          Long.parseLong((String)status.get(timerBaseProp)),
-                          Integer.parseInt(status.getProperty(requestCodeProp)));
-            timerStatus.setNote(status.getProperty(noteProp));
+            timerStatus = new Status((String) status.getProperty(ACTION_NAME_PROP_NAME),
+                    Long.parseLong((String)status.get(TIMER_PROP_NAME)),
+                    Integer.parseInt(status.getProperty(REQ_CODE_PROP_NAME)));
+            timerStatus.setNote(status.getProperty(NOTE_PROP_NAME));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,13 +199,12 @@ public class MyApplication {
     }
 
     public boolean statusExist() {
-        return (new File(rootName,Constants.STATUS_FILE)).exists();
+        return (new File(rootNameDir,STATUS_FILE)).exists();
     }
 
-    public void deleteStatusFile() {
-        File file = new File(rootName, Constants.STATUS_FILE);
+    public void deleteStatus() {
+        File file = new File(rootNameDir, STATUS_FILE);
         file.delete();
-        status.clear();
     }
 
     public boolean checkIfActionExists(String name) {

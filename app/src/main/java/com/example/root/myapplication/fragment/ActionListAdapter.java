@@ -1,17 +1,17 @@
 package com.example.root.myapplication.fragment;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,15 +20,13 @@ import android.widget.TextView;
 import com.example.root.myapplication.DetailActivity;
 import com.example.root.myapplication.MainActivity;
 import com.example.root.myapplication.R;
-import com.example.root.myapplication.TimerActivity;
+import com.example.root.myapplication.dialog.AreYouSureDialog;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.util.Constants;
-import com.example.root.myapplication.util.MyApplication;
+import com.example.root.myapplication.service.AppService;
 import com.example.root.myapplication.util.Utils;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by felias on 10.11.16.
@@ -44,9 +42,10 @@ public class ActionListAdapter extends BaseAdapter {
     private int rowHeight;
     private final int iconSize;
     private final int butonSize;
+    private AppService app;
 
     public ActionListAdapter(List<Action> filtered, AppCompatActivity context) {
-
+        app=AppService.getInstance();
         rows = filtered.size();
         this.context = context;
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -150,11 +149,27 @@ public class ActionListAdapter extends BaseAdapter {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MyApplication app = MyApplication.getInstance(context.getFilesDir());
-                    app.deleteAction(filtered.get(row).getName());
-                    if (filtered != app.getActions())
-                        filtered.remove(row);
-                    notifyDataSetChanged();
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    app.deleteAction(filtered.get(row).getName());
+                                    if (filtered != app.getActions())
+                                        filtered.remove(row);
+                                    notifyDataSetChanged();
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.are_you_sure).setPositiveButton(R.string.yes, dialogClickListener)
+                            .setNegativeButton(R.string.no, dialogClickListener).show();
+
                 }
             });
             LinearLayout.LayoutParams deleteparams = new LinearLayout.LayoutParams(butonSize, butonSize);
@@ -189,7 +204,11 @@ public class ActionListAdapter extends BaseAdapter {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(Constants.ACTION_NAME, name);
         context.startActivityForResult(intent,  MainActivity.CODE);
-        // context.startActivity(intent);
+    }
+
+    public void deleteAll() {
+        filtered.clear();
+        notifyDataSetChanged();
     }
 
 }

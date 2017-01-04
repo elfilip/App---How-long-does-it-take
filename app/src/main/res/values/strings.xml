@@ -40,5 +40,8 @@
     <string name="cant_delete">Can\'t delete</string>
     <string name="cant_delete_last">Can\'t delete last measurement.</string>
     <string name="average">average</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="are_you_sure">Are you sure?</string>
 
 </resources>

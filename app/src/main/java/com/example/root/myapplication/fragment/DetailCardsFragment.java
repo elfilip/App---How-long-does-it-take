@@ -1,9 +1,7 @@
 package com.example.root.myapplication.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +9,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.root.myapplication.DetailActivity;
-import com.example.root.myapplication.MainActivity;
 import com.example.root.myapplication.R;
-import com.example.root.myapplication.TimerActivity;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Measurement;
-import com.example.root.myapplication.entity.Status;
-import com.example.root.myapplication.util.Constants;
-import com.example.root.myapplication.util.MyApplication;
+import com.example.root.myapplication.service.AppService;
 
 /**
  * Created by felias on 7.12.16.
@@ -34,14 +25,14 @@ public class DetailCardsFragment extends Fragment {
     public static String IMAGE_ID = "image_id";
     public static String TEXT_ID = "text_id";
     public boolean isNoteEdit=false;
-    private MyApplication app;
+    private AppService app;
     private Measurement measurement;
     private Action action;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        app = MyApplication.getInstance(null);
+        app = AppService.getInstance();
 
         Bundle args=getArguments();
         action=app.getAction(args.getString(DetailCardsAdapter.ACTION_NAME));
