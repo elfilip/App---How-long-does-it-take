@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.root.myapplication.dialog.AreYouSureDialog;
 import com.example.root.myapplication.dialog.DeleteDialog;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         //Configure toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setIcon(android.R.drawable.ic_menu_myplaces);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.logo);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
      */
     public void okClick(DialogFragment fragment){
         app.deleteAllActions();
-        deleteAllActionViews();
+        adapter.deleteAll();
     }
 
     /**
@@ -139,13 +142,6 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
         final ListView grid=(ListView) findViewById(R.id.action_list);
         adapter = new ActionListAdapter( app.getActions(),this);
         grid.setAdapter(adapter);
-    }
-
-    private void deleteAllActionViews(){
-        ListView grid=(ListView) findViewById(R.id.action_list);
-        app.deleteAllActions();
-        adapter.setFiltered(new LinkedList<Action>());
-        adapter.notifyDataSetChanged();
     }
 
     private void checkIfTimerCounts(){
@@ -190,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
+        System.out.println("activityResult");
         if (requestCode == MainActivity.CODE) {
             // Update list of actions if it changed
             if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {

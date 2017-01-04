@@ -1,6 +1,8 @@
 package com.example.root.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -29,99 +31,53 @@ import com.example.root.myapplication.util.Utils;
 
 public class DetailActivity extends AppCompatActivity {
 
+
+    public final static int CODE = 102;
+    public final static int RESULT_CODE_UPDATE = 1;
+
     private AppService app;
-    private boolean isNameEdit=false;
+    private boolean isNameEdit = false;
     private TextView measuringCounter;
     private ViewPager cardsPager;
     private DetailCardsAdapter cardsAdapter;
     private Action currentAction;
-
-    public static int CODE=102;
-    public static int RESULT_CODE_UPDATE=1;
-
-
+    private TextView name;
+    private EditText name_editText;
+    private ImageButton editNameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        app= AppService.getInstance();
+        app = AppService.getInstance();
         setContentView(R.layout.action_details);
         Intent intent = getIntent();
         String actionName = intent.getStringExtra(Constants.ACTION_NAME);
-        currentAction=app.getAction(actionName);
 
-        cardsAdapter = new DetailCardsAdapter(getSupportFragmentManager(),currentAction);
+        name = (TextView) findViewById(R.id.detail_name);
+        editNameButton = (ImageButton) findViewById(R.id.detail_edit_name_button);
+        name_editText = (EditText) findViewById(R.id.details_name_edittext);
         cardsPager = (ViewPager) findViewById(R.id.cards_pager);
+        ImageButton previous = (ImageButton) findViewById(R.id.but_previous);
+        ImageButton next = (ImageButton) findViewById(R.id.but_next);
+        measuringCounter = (TextView) findViewById(R.id.current_measuring);
+
+        currentAction = app.getAction(actionName); //get action for which we want to load details
+        cardsAdapter = new DetailCardsAdapter(getSupportFragmentManager(), currentAction);
         cardsPager.setAdapter(cardsAdapter);
 
-        final TextView name=(TextView)findViewById(R.id.detail_name);
-               final EditText name_editText = (EditText)findViewById(R.id.details_name_edittext);
-        final ImageButton editNameButton = (ImageButton) findViewById(R.id.detail_edit_button);
-        editNameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isNameEdit==false) {
-                    name.setVisibility(View.GONE);
-                    name_editText.setVisibility(View.VISIBLE);
-                    editNameButton.setImageResource(R.drawable.check_small);
-                }else{
-                    name.setVisibility(View.VISIBLE);
-                    name_editText.setVisibility(View.GONE);
-                    editNameButton.setImageResource(R.drawable.edit_image);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(name.getWindowToken(), 0);
-                    app.updateActionName(currentAction.getName(),name_editText.getText().toString());
-                    name.setText(name_editText.getText().toString());
-                    setResult(DetailActivity.RESULT_CODE_UPDATE);
-                }
-                isNameEdit=!isNameEdit;
-            }
-        });
+        name.setText(currentAction.getName());
+        name.setEnabled(false);
+        name_editText.setText(currentAction.getName());
 
-
-
-            name.setText(currentAction.getName());
-            name.setEnabled(false);
-            name_editText.setText(currentAction.getName());
-
-
-
-        final ImageButton startNextButton = (ImageButton) findViewById(R.id.start_next_button);
-        startNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                app.saveStatus(new  Status(currentAction.getName(), SystemClock.elapsedRealtime(),CODE));
-                Intent intent = new Intent(getApplicationContext(), TimerActivity.class);
-                startActivityForResult(intent,CODE);
-                setResult(DetailActivity.RESULT_CODE_UPDATE);
-            }
-        });
-
-        final ImageButton deleteButton = (ImageButton) findViewById(R.id.delete_mes_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentAction.hasMoreMeasurements()==false){
-                    Utils.showAlertDialog(DetailActivity.this,R.string.cant_delete,R.string.cant_delete_last,R.string.ok);
-                    return;
-                }
-                if (cardsPager.getCurrentItem() != 0) {
-                    cardsPager.setCurrentItem(cardsPager.getCurrentItem()-1);
-                }
-                currentAction.deleteMeasurement(cardsPager.getCurrentItem());
-                setResult(DetailActivity.RESULT_CODE_UPDATE);
-                updateAllFields();
-            }
-        });
-
-        ImageButton previous = (ImageButton) findViewById(R.id.but_previous);
+        //when user clicks on show previous measurement
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cardsPager.setCurrentItem(cardsPager.getCurrentItem() - 1);
             }
         });
-        ImageButton next = (ImageButton) findViewById(R.id.but_next);
+
+        //when user clicks on show next measurement
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,26 +86,19 @@ public class DetailActivity extends AppCompatActivity {
 
         });
 
-        measuringCounter=(TextView)findViewById(R.id.current_measuring);
         setMeasuringCounter();
 
         cardsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageSelected(int position) {
                 setMeasuringCounter();
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {            }
         });
-
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(myToolbar);
@@ -159,8 +108,79 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Called when user clicks edit name button
+     *
+     * @param view
+     */
+    public void editNameButtonClick(View view) {
+        if (isNameEdit == false) {
+            name.setVisibility(View.GONE);
+            name_editText.setVisibility(View.VISIBLE);
+            editNameButton.setImageResource(R.drawable.check_small);
+        } else {
+            name.setVisibility(View.VISIBLE);
+            name_editText.setVisibility(View.GONE);
+            editNameButton.setImageResource(R.drawable.edit_image);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(name.getWindowToken(), 0);
+            app.updateActionName(currentAction.getName(), name_editText.getText().toString());
+            name.setText(name_editText.getText().toString());
+            setResult(DetailActivity.RESULT_CODE_UPDATE);
+        }
+        isNameEdit = !isNameEdit;
+    }
+
+    /**
+     * Called when user clicks on delete measurement
+     *
+     * @param view
+     */
+    public void deleteButtonClick(View view) {
+        if (currentAction.hasMoreMeasurements() == false) {
+            Utils.showAlertDialog(DetailActivity.this, R.string.cant_delete, R.string.cant_delete_last, R.string.ok);
+            return;
+        }
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        if (cardsPager.getCurrentItem() != 0) {
+                            cardsPager.setCurrentItem(cardsPager.getCurrentItem() - 1);
+                        }
+                        currentAction.deleteMeasurement(cardsPager.getCurrentItem());
+                        setResult(DetailActivity.RESULT_CODE_UPDATE);
+                        updateAllFields();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+        builder.setMessage(R.string.are_you_sure).setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no, dialogClickListener).show();
+
+    }
+
+    /**
+     * Called when user clicks start next measurement
+     *
+     * @param view
+     */
+    public void startNextButtonClick(View view) {
+        app.saveStatus(new Status(currentAction.getName(), SystemClock.elapsedRealtime(), CODE));
+        Intent intent = new Intent(getApplicationContext(), TimerActivity.class);
+        startActivityForResult(intent, CODE);
+        setResult(DetailActivity.RESULT_CODE_UPDATE);
+    }
+
     private void setMeasuringCounter() {
-        measuringCounter.setText((cardsPager.getCurrentItem()+1)+" / "+currentAction.getMeasurement().size());
+        measuringCounter.setText((cardsPager.getCurrentItem() + 1) + " / " + currentAction.getMeasurement().size());
     }
 
     @Override
@@ -172,8 +192,8 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-       super.onBackPressed();
-       finish();
+        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -189,14 +209,13 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-         updateAllFields();
+        updateAllFields();
     }
 
 
-    private void updateAllFields(){
+    private void updateAllFields() {
         cardsAdapter.notifyDataSetChanged();
-        cardsPager.setCurrentItem(cardsAdapter.getCount()-1);
+        cardsPager.setCurrentItem(cardsAdapter.getCount() - 1);
         setMeasuringCounter();
     }
 

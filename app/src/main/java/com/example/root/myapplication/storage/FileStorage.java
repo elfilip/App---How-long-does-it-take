@@ -116,9 +116,6 @@ public class FileStorage implements Storage{
                 // convert to char and display it
                 str += (char) content;
             }
-
-            System.out.println("After reading file");
-            System.out.println(str);
             return str;
 
         } catch (IOException e) {
@@ -135,8 +132,7 @@ public class FileStorage implements Storage{
     }
 
     public void deleteAllActions() {
-        actions = new LinkedList<>();
-        Gson g = new Gson();
+        actions.clear();
         saveActions();
     }
 
