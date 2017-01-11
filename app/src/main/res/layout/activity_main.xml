@@ -63,7 +63,8 @@
                     android:background="@android:color/white"
                     android:textSize="22sp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true" />
 
                 <Button
                     android:layout_width="0dp"

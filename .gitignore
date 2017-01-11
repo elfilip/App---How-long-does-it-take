@@ -9,3 +9,4 @@ gradlew.bat
 .externalNativeBuild
 /gradle
 /.idea
+/app/src/main/res/drawable

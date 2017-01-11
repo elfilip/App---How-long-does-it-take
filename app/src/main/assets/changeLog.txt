@@ -1,0 +1,5 @@
+Version 0.1
+
+- Added new graphic
+- Added support for multi measurement
+- Added license

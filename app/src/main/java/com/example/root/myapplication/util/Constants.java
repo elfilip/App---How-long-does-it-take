@@ -7,4 +7,5 @@ package com.example.root.myapplication.util;
 public class Constants {
     public static final String ACTION_NAME="action_name";
     public static final String REQUEST_CODE = "requestCode";
+    public static final String ASSET_NAME = "assetName";
 }

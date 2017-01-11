@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 /**
@@ -58,6 +60,21 @@ public class Utils {
 
         try {
             fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't load file");
+        }
+
+        if (fis != null) {
+            return readInputStream(fis);
+        }else{
+            return null;
+        }
+    }
+
+    public static String readInputStream(InputStream fis) {
+        String str = "";
+        try {
             int content;
             while ((content = fis.read()) != -1) {
                 // convert to char and display it

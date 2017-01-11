@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">How long does it take?</string>
-    <string name="edit_message">Name of an action</string>
+    <string name="edit_message">Name of an activity</string>
     <string name="button_send">Start</string>
     <string name="button_stop">Stop</string>
     <string name="button_pause">Pause</string>
@@ -10,18 +10,18 @@
     <string name="confirm_delete_all">Delete all records?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="current_action">Current Action:</string>
-    <string name="please_select_name">Please select name for your action</string>
-    <string name="name_exits">This action name already exists. Please select different name.</string>
+    <string name="current_action">Current Activity:</string>
+    <string name="please_select_name">Please select name for your activity</string>
+    <string name="name_exits">This activity name already exists. Please select different name.</string>
     <string name="invalid_input">Invalid Input</string>
     <string name="action_filter">Search:</string>
-    <string name="type_text_to_filter">Type to search in actions...</string>
+    <string name="type_text_to_filter">Type to search in activities...</string>
     <string name="name">Name:</string>
     <string name="time">Time:</string>
     <string name="date">Date:</string>
     <string name="note">Note:</string>
     <string name="add_some_note">Add a note...</string>
-    <string name="action_details">Action\'s Details</string>
+    <string name="action_details">Activity Details</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="help">Help</string>
@@ -32,16 +32,18 @@
     <string name="versionText">Version</string>
     <string name="language">Change language</string>
     <string name="show_icon">Show icon in status bar</string>
-    <string name="help1_text">Main menu. You can start a new action here.</string>
-    <string name="help2_text">Timer. You can watch a progress of a current action.</string>
-    <string name="help3_text">Action details. You can see some details about the action.</string>
+    <string name="help1_text">This is the main screen. You can see all your measurements here. Fill the activity name and click on <b>START</b> to initiate a new measurement.</string>
+    <string name="help2_text">When you click on <b>START</b> you will activate a timer. You can pause it or add a note. Click on <b>STOP</b> when the activity is complete.</string>
+    <string name="help3_text">You can change the name of the activity here or update the note. You can start a new measurement of the activity by clicking on the stopwatch button. </string>
+    <string name="help4_text">When you have more measurements for one activity you can use buttons or <b>swipe</b> gesture to cycle through measurements.</string>
     <string name="help_default">No text here</string>
-    <string name="add_new_measure">Add a new measuring</string>
+    <string name="add_new_measure">Add a new measurement</string>
     <string name="cant_delete">Can\'t delete</string>
     <string name="cant_delete_last">Can\'t delete last measurement.</string>
     <string name="average">average</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="current_measurement">Current Measurement</string>
 
 </resources>

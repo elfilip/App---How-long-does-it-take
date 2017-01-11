@@ -1,6 +1,7 @@
 package com.example.root.myapplication.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,16 +29,17 @@ public class HelpFragment extends Fragment {
         LinearLayout rootView = new LinearLayout(container.getContext());
         rootView.setOrientation(LinearLayout.VERTICAL);
         ImageView image = new ImageView(container.getContext());
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.8f);
+        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.7f);
         image.setLayoutParams(imageParams);
         Bundle args=getArguments();
         image.setImageResource(args.getInt(IMAGE_ID));
 
         TextView helpText=new TextView(container.getContext());
         helpText.setText(args.getInt(TEXT_ID,R.string.help_default));
-        helpText.setTextSize(20f);
+        helpText.setTextColor(Color.BLACK);
+        helpText.setTextSize(16f);
         helpText.setPadding(40,5,40,5);
-        LinearLayout.LayoutParams helpTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.2f);
+        LinearLayout.LayoutParams helpTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 0.3f);
         helpText.setLayoutParams(helpTextParams);
 
         rootView.addView(image);

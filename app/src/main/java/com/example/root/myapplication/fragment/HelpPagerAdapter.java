@@ -15,7 +15,7 @@ import com.example.root.myapplication.R;
 
 public class HelpPagerAdapter extends FragmentStatePagerAdapter {
 
-public static int COUNT=3;
+public static int COUNT=4;
 
     public HelpPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,22 +29,29 @@ public static int COUNT=3;
             case 0:
                 helpScreen = new HelpFragment();
                 args = new Bundle();
-                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help1_low);
+                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help1_new);
                 args.putInt(HelpFragment.TEXT_ID,R.string.help1_text);
                 helpScreen.setArguments(args);
                 return helpScreen;
             case 1:
                 helpScreen = new HelpFragment();
                 args = new Bundle();
-                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help2_low);
+                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help2_new);
                 args.putInt(HelpFragment.TEXT_ID,R.string.help2_text);
                 helpScreen.setArguments(args);
                 return helpScreen;
             case 2:
                 helpScreen = new HelpFragment();
                 args = new Bundle();
-                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help3_low);
+                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help3_new);
                 args.putInt(HelpFragment.TEXT_ID,R.string.help3_text);
+                helpScreen.setArguments(args);
+                return helpScreen;
+            case 3:
+                helpScreen = new HelpFragment();
+                args = new Bundle();
+                args.putInt(HelpFragment.IMAGE_ID, R.drawable.help4_new);
+                args.putInt(HelpFragment.TEXT_ID,R.string.help4_text);
                 helpScreen.setArguments(args);
                 return helpScreen;
         }

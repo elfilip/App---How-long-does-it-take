@@ -74,4 +74,6 @@ public class DetailCardsAdapter extends FragmentPagerAdapter {
         notifyChangeInPosition(measurementList.size());
         super.notifyDataSetChanged();
     }
+
+
 }

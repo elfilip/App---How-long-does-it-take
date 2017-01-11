@@ -1,7 +1,6 @@
 package com.example.root.myapplication.fragment;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.example.root.myapplication.DetailActivity;
 import com.example.root.myapplication.MainActivity;
 import com.example.root.myapplication.R;
-import com.example.root.myapplication.dialog.AreYouSureDialog;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.util.Constants;
 import com.example.root.myapplication.service.AppService;
@@ -41,8 +39,9 @@ public class ActionListAdapter extends BaseAdapter {
     private final String color2 = "#ffffff";
     private int rowHeight;
     private final int iconSize;
-    private final int butonSize;
+    private final int buttonSize;
     private AppService app;
+    private final int MAX_CHARS_PER_LINE=15;
 
     public ActionListAdapter(List<Action> filtered, AppCompatActivity context) {
         app=AppService.getInstance();
@@ -51,8 +50,8 @@ public class ActionListAdapter extends BaseAdapter {
         final float scale = context.getResources().getDisplayMetrics().density;
         rowHeight = (int) (70 * scale + 0.5f);
         this.filtered = filtered;
-        iconSize = (int) (50 * scale + 0.5f);
-        butonSize = (int) (40 * scale + 0.5f);
+        iconSize = getDimension(R.dimen.iconSize);
+        buttonSize = getDimension(R.dimen.buttonSize);
     }
 
     public void setFiltered(List<Action> newlist) {
@@ -97,7 +96,7 @@ public class ActionListAdapter extends BaseAdapter {
         }else{
             iw.setImageResource(R.drawable.cifernik_trio);
         }
-        iw.setPadding(10, 0, 40, 0);
+        iw.setPadding(getDimension(R.dimen.paddingIconLeft), 0,getDimension( R.dimen.paddingIconRight), 0);
         iw.setBackgroundColor(Color.TRANSPARENT);
         LinearLayout.LayoutParams iwparams=new LinearLayout.LayoutParams(iconSize,iconSize);
         iw.setLayoutParams(iwparams);
@@ -108,13 +107,16 @@ public class ActionListAdapter extends BaseAdapter {
 
 
             TextView name = new TextView(context);
-            name.setText(currentAction.getName());
+            LinearLayout.LayoutParams nameParams=new LinearLayout.LayoutParams(getDimension(R.dimen.nameMaxWidth),ViewGroup.LayoutParams.WRAP_CONTENT);
+            name.setLayoutParams(nameParams);
+            name.setText(limitCharPerLines(currentAction.getName(),MAX_CHARS_PER_LINE));
             name.setTextSize(19f);
             name.setTextColor(Color.BLACK);
-            name.setSingleLine(true);
+            name.setSingleLine(false);
             name.setHorizontallyScrolling(true);
             name.setMovementMethod(new ScrollingMovementMethod());
             name.setPadding(0, 0, 0, 0);
+           // name.setMaxWidth(getDimension(R.dimen.nameMaxWidth));
 
             // configureView(name, row, viewGroup);
             nameTimeLayout.addView(name);
@@ -145,7 +147,7 @@ public class ActionListAdapter extends BaseAdapter {
             Drawable icon = context.getResources().getDrawable(R.drawable.delete);
             delete.setImageDrawable(icon);
             delete.setBackgroundColor(Color.TRANSPARENT);
-            delete.setPadding(0, 0, 40, 0);
+            delete.setPadding(0, 0, getDimension(R.dimen.paddingIconRight), 0);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -172,7 +174,7 @@ public class ActionListAdapter extends BaseAdapter {
 
                 }
             });
-            LinearLayout.LayoutParams deleteparams = new LinearLayout.LayoutParams(butonSize, butonSize);
+            LinearLayout.LayoutParams deleteparams = new LinearLayout.LayoutParams(buttonSize, buttonSize);
             delete.setLayoutParams(deleteparams);
             delete.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
@@ -183,14 +185,14 @@ public class ActionListAdapter extends BaseAdapter {
             detail.setImageDrawable(iconDetail);
             detail.setBackgroundColor(Color.TRANSPARENT);
             // detail.setTint(android.R.color.holo_blue_dark);
-            detail.setPadding(0, 0, 40, 0);
+            detail.setPadding(0, 0, getDimension(R.dimen.paddingIconRight), 0);
             detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showDetailActivity(filtered.get(row).getName());
                 }
             });
-            LinearLayout.LayoutParams detailparams = new LinearLayout.LayoutParams(butonSize, butonSize);
+            LinearLayout.LayoutParams detailparams = new LinearLayout.LayoutParams(buttonSize, buttonSize);
             detail.setLayoutParams(detailparams);
             detail.setScaleType(ImageView.ScaleType.FIT_CENTER);
             buttonLayout.addView(detail);
@@ -209,6 +211,22 @@ public class ActionListAdapter extends BaseAdapter {
     public void deleteAll() {
         filtered.clear();
         notifyDataSetChanged();
+    }
+
+    int getDimension(int id) {
+        return (int) context.getResources().getDimension(id);
+    }
+
+    private String limitCharPerLines(String text,int charNum) {
+        StringBuilder sb = new StringBuilder(text);
+        int pos=charNum;
+        int offset=0;
+        while(sb.length()-offset>pos){
+            sb.insert(pos,'\n');
+            offset++;
+            pos=pos+charNum+offset;
+        }
+        return sb.toString();
     }
 
 }

@@ -34,13 +34,26 @@
 
         />
 
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+  >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:cardElevation="5dp"
         android:padding="5dp"
         android:layout_margin="5dp"
-        android:layout_weight="1">
+        >
 
         <LinearLayout
             android:orientation="vertical"
@@ -137,11 +150,11 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:cardElevation="5dp"
         android:padding="5dp"
-        android:layout_margin="5dp"
-        android:layout_weight="1">
+        android:layout_margin="5dp">
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -157,7 +170,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:id="@+id/measuring_text"
-                    android:text="Current Measuring"
+                    android:text="@string/current_measurement"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
@@ -229,13 +242,14 @@
         android:layout_height="1dp" />
 
 
-    <android.support.v4.view.ViewPager
+    <com.example.root.myapplication.fragment.CustomViewPager
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3.18"
+        android:layout_height="wrap_content"
         android:id="@+id/cards_pager"
         android:background="@color/main_activity_top">
 
-    </android.support.v4.view.ViewPager>
+    </com.example.root.myapplication.fragment.CustomViewPager>
 
 </LinearLayout>
+</ScrollView>
+    </LinearLayout>

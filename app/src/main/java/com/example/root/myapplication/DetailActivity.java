@@ -183,12 +183,6 @@ public class DetailActivity extends AppCompatActivity {
         measuringCounter.setText((cardsPager.getCurrentItem() + 1) + " / " + currentAction.getMeasurement().size());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public void onBackPressed() {

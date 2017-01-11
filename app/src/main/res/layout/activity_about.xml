@@ -65,7 +65,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/logo_circle"
             android:id="@+id/imageView2" />
 
         <TextView
@@ -96,7 +96,8 @@
             android:id="@+id/usage_conditions"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:onClick="conditionsClick" />
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -108,7 +109,8 @@
             android:id="@+id/report_issue"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:onClick="reportIssueClick" />
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -120,7 +122,8 @@
             android:id="@+id/new_changelog"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:onClick="logClick" />
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
