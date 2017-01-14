@@ -1,13 +1,21 @@
 package com.example.root.myapplication;
 
 import android.app.DialogFragment;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,10 +29,13 @@ import com.example.root.myapplication.dialog.DeleteDialog;
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
 import com.example.root.myapplication.fragment.ActionListAdapter;
+import com.example.root.myapplication.fragment.FileDialog;
 import com.example.root.myapplication.storage.FileStorage;
 import com.example.root.myapplication.service.AppService;
+import com.example.root.myapplication.storage.JSONConfigurationStorage;
 import com.example.root.myapplication.util.Utils;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,9 +57,10 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
 
         app = AppService.getInstance();
         if(!app.isStorageSet()){
-            app.setStorage(new FileStorage(getApplicationContext().getFilesDir()));
+            app.setStorage(new FileStorage(getApplicationContext().getFilesDir()),
+                           new JSONConfigurationStorage(getApplicationContext().getFilesDir()));
         }
-
+    System.out.println(getApplicationContext().getFilesDir().getAbsolutePath());
         //creates list of actions
         createList(layout);
         //checks whether timers is started and opens timer activity if so
@@ -108,8 +120,9 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
                 return true;
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent,CODE);
                 return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -186,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
-        System.out.println("activityResult");
+        ((NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
         if (requestCode == MainActivity.CODE) {
             // Update list of actions if it changed
             if (resultCode == DetailActivity.RESULT_CODE_UPDATE || resultCode==TimerActivity.RESULT_CODE) {
@@ -194,4 +207,5 @@ public class MainActivity extends AppCompatActivity implements DeleteDialog.Dele
             }
         }
     }
+
 }

@@ -25,6 +25,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
 
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -44,19 +45,51 @@
             android:layout_height="1dp"
             android:background="#d7d7d7"/>
 
-        <TextView
+        <CheckBox
             android:text="@string/show_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/show_icon"
-            android:textSize="18sp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:checked="false"
+            android:onClick="onShowIconClicked"/>
+        />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#d7d7d7"/>
+
+
+        <CheckBox
+            android:text="@string/show_milis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_millis"
+            android:checked="false"
+            android:onClick="onShowMillisClicked"/>
+        />
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#d7d7d7"/>
+
+        <CheckBox
+            android:text="@string/time_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_white"
+            android:checked="false"
+            android:onClick="onTimerWhiteClicked"/>
+        />
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#d7d7d7"/>
+
     </LinearLayout>
 
 </LinearLayout>

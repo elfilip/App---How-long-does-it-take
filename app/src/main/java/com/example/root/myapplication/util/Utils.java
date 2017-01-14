@@ -31,7 +31,7 @@ public class Utils {
         alert.show();
     }
 
-    public static String convertTimeToText(Date time) {
+    public static String convertTimeToText(Date time, boolean listMiliseconds) {
         long sec = time.getTime() / 1000;
         long seconds = sec % 60;
         long minutes = (sec / 60) % 60;
@@ -51,6 +51,10 @@ public class Utils {
             result.append("0");
         }
         result.append(seconds);
+        if (listMiliseconds == true) {
+            result.append(".");
+            result.append(time.getTime()%1000);
+        }
         return result.toString();
     }
 

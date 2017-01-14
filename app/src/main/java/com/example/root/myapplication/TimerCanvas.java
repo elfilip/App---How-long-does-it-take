@@ -14,6 +14,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.root.myapplication.service.AppService;
+
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class TimerCanvas extends View {
@@ -37,7 +39,7 @@ public class TimerCanvas extends View {
     private int space;   //when the line starts (watch face)
     private Paint watchPaint = new Paint(); //info about text properties
     private Bitmap bitmap = null; //Contains background image
-
+    private AppService app;
 
     /**
      * Draws a watch face with time for timer actitivy
@@ -47,6 +49,7 @@ public class TimerCanvas extends View {
      */
     public TimerCanvas(Context c, AttributeSet attrs) {
         super(c, attrs);
+        app = AppService.getInstance();
         context = c;
     }
 
@@ -85,16 +88,25 @@ public class TimerCanvas extends View {
         watchPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, COLOR_WATCH_TICK);
         drawLine((seconds * DEGREES + 270) % 360, canvas, watchPaint);
         Paint textPaint = new Paint();
-        textPaint.setColor(COLOR_WATCH_TEXT);
+        if (!app.getConfig().isTimeWhiteColor()) {
+            textPaint.setColor(COLOR_WATCH_TEXT);
+        } else {
+            textPaint.setColor(Color.WHITE);
+        }
         final float scale = context.getResources().getDisplayMetrics().density;
         int textSize = (int) (TEXT_SIZE_PX * scale + 0.5f);
-        if(context.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE ) {
+        if (context.getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE) {
             textPaint.setTextSize(textSize * 1.5f);
-        }else{
+        } else {
             textPaint.setTextSize(textSize);
         }
         textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, COLOR_WATCH_TEXT);
+        if (!app.getConfig().isTimeWhiteColor()) {
+            textPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, COLOR_WATCH_TEXT);
+        } else{
+            textPaint.setShadowLayer(10, 0, 0, Color.WHITE);
+        }
+
         int textYpos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
         canvas.drawText(timeText, middle_x, textYpos, textPaint);
     }

@@ -123,11 +123,11 @@ public class ActionListAdapter extends BaseAdapter {
 
             TextView time = new TextView(context);
         if(currentAction.hasMoreMeasurements()==false) {
-            time.setText(currentAction.getMeasurement().get(0).getTimeText());
+            time.setText(currentAction.getMeasurement().get(0).getTimeText(app.getConfig().isShowMilis()));
         }
         else{
 
-            String dateText = Utils.convertTimeToText(currentAction.getAverageTime()) + " ("+context.getResources().getString(R.string.average)+")";
+            String dateText = Utils.convertTimeToText(currentAction.getAverageTime(),app.getConfig().isShowMilis()) + " ("+context.getResources().getString(R.string.average)+")";
             time.setText(dateText);
         }
             time.setTextSize(15f);

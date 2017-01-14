@@ -71,7 +71,7 @@ public class DetailCardsFragment extends Fragment {
         });
 
 
-            time.setText(measurement.getTimeText());
+            time.setText(measurement.getTimeText(app.getConfig().isShowMilis()));
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String dateText = sdf.format(measurement.getDate());
             date.setText(dateText);

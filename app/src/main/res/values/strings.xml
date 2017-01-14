@@ -45,5 +45,9 @@
     <string name="no">no</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="current_measurement">Current Measurement</string>
+    <string name="show_milis">Show Miliseconds</string>
+    <string name="time_white">Change timer color to white</string>
+    <string name="in_progress">Activity %s is in progress</string>
+    <string name="export_data">Export</string>
 
 </resources>

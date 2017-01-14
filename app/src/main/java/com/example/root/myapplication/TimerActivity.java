@@ -1,8 +1,12 @@
 package com.example.root.myapplication;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,8 +41,6 @@ public class TimerActivity extends AppCompatActivity {
     private int request_code;
     private boolean isNoteEdit=false;
     private Status currentStatus;
-
-
 
 
     @Override
@@ -88,7 +90,7 @@ public class TimerActivity extends AppCompatActivity {
                     noteButton.setVisibility(View.VISIBLE);
                 }
             });
-
+            displayNotification(nameUpperCase);
             startTimer();
             setResult(TimerActivity.RESULT_CODE);  //list of action in MainActivity will be updated
     }
@@ -146,6 +148,8 @@ public class TimerActivity extends AppCompatActivity {
         action.addMeasurement(mes);
         app.deleteStatus();
         app.saveActions();
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr.cancelAll();
         finish();
     }
 
@@ -199,5 +203,20 @@ public class TimerActivity extends AppCompatActivity {
             }
         });
         timer.start();
+    }
+
+    private void displayNotification(String activityName){
+        if(app.getConfig().isShowIcon()) {
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotifyMgr.cancelAll();
+            PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, getIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder mBuilder=new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.app_icon)
+                    .setContentTitle(getResources().getString(R.string.app_name))
+                    .setContentIntent(pIntent)
+                    .setContentText(getApplicationContext().getString(R.string.in_progress,activityName));
+            int mNotificationId = 269;
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
+        }
     }
 }

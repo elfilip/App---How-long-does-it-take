@@ -55,12 +55,16 @@ public class Measurement implements Serializable{
         this.note = note;
     }
 
-    public String getTimeText() {
-        return timeText;
+    public String getTimeText(boolean showMillis) {
+        if(showMillis==false){
+            return timeText.substring(0, timeText.length()-4);
+        }else{
+            return timeText;
+        }
     }
 
     private String convertTimeToText(Date time) {
-        return Utils.convertTimeToText(time);
+        return Utils.convertTimeToText(time,true);
     }
 }
 

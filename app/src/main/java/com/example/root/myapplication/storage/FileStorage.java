@@ -60,7 +60,6 @@ public class FileStorage implements Storage{
             return new LinkedList<>();
         else
             return result;
-
     }
 
     public boolean addAction(Action action) {

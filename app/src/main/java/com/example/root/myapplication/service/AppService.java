@@ -1,7 +1,10 @@
 package com.example.root.myapplication.service;
 
 import com.example.root.myapplication.entity.Action;
+import com.example.root.myapplication.entity.Configuration;
 import com.example.root.myapplication.entity.Status;
+import com.example.root.myapplication.storage.ConfigurationStorage;
+import com.example.root.myapplication.storage.JSONConfigurationStorage;
 import com.example.root.myapplication.storage.Storage;
 
 import java.util.List;
@@ -14,6 +17,7 @@ public class AppService {
 
     private static AppService instance;
     private Storage storage;
+    private ConfigurationStorage config;
 
     private AppService() {
 
@@ -26,8 +30,9 @@ public class AppService {
         return instance;
     }
 
-    public void setStorage(Storage storage) {
+    public void setStorage(Storage storage,ConfigurationStorage configStorage) {
         this.storage = storage;
+        this.config=configStorage;
     }
 
     public boolean isStorageSet() {
@@ -36,7 +41,7 @@ public class AppService {
 
     public Storage getStorage() {
         if(storage==null){
-            throw new RuntimeException("Storage is not set. Please call method set storage first");
+            throw new RuntimeException("Storage has not been set. Please call method setStorage first");
         }
         return storage;
     }
@@ -96,6 +101,17 @@ public class AppService {
 
     public void updateActionNote(String actionName, int pos, String newNote) {
         getStorage().updateActionNote(actionName, pos, newNote);
+    }
+
+    public Configuration getConfig() {
+        if (config == null) {
+            throw new RuntimeException("Config storage has not been set. Please call method setStorage first");
+        }
+        return config.loadConfig();
+    }
+
+    public void saveConfig(Configuration configuration) {
+        config.saveConfig(configuration);
     }
 
 }
