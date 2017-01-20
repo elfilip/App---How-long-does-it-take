@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#9f3230</color>
     <color name="colorAccent">#ff4081</color>
     <color name="main_activity_top">#dae7ec</color>
+    <color name="selected_color">#edf8fc</color>
+    <color name="selected_delete">#fae3e2</color>
 </resources>

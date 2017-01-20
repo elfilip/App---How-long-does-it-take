@@ -77,7 +77,7 @@ public class TimerActivity extends AppCompatActivity {
                 timer.setBase(timerBase);
             }
 
-            //click on note, note will activate it self and confirm button is displayed
+            //click on note, note will activate itself and confirm button is displayed
             noteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -101,4 +101,47 @@ public class Utils {
         }
         return null;
     }
+
+    public static String limitCharPerLines(String text,int charNum) {
+        if(text.length()<charNum)
+            return text;
+
+        StringBuilder sb = new StringBuilder();
+        String[] words = text.split(" ");
+
+        int count=0;
+        for (String word : words) {
+            if(word.length()>charNum){
+                if(count!=0) {
+                    sb.append(" ");
+                    count++;
+                }
+                for(int i=0;i<word.length();i++) {
+                    sb.append(word.charAt(i));
+                    count++;
+                    if(count==charNum){
+                        sb.append('\n');
+                        count=0;
+                    }
+                }
+            }
+            else if(count+word.length()<charNum){
+                if(count!=0 && word.length()!=0)  {
+                    sb.append(" ");
+                    count++;
+                }
+                if(word.length()==0){
+                    sb.append(" ");
+                    count++;
+                }else{
+                    sb.append(word);
+                    count += word.length();
+                }
+            }else{
+                sb.append('\n').append(word);
+                count=word.length();
+            }
+        }
+        return sb.toString();
+    }
 }

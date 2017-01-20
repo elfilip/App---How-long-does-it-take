@@ -76,7 +76,8 @@
                     android:padding="10dp"
                     android:layout_marginRight="5dp"
                     android:backgroundTint="@android:color/holo_blue_dark"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:elevation="4dp" />
 
             </LinearLayout>
 

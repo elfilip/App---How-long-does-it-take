@@ -189,7 +189,7 @@
                     android:adjustViewBounds="true"
                     android:onClick="deleteButtonClick"
                     android:backgroundTint="@color/details_title"
-                    />
+                    android:elevation="4dp" />
             </LinearLayout>
 
             <View

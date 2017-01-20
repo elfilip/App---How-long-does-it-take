@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -80,13 +82,13 @@ public class ActionListAdapter extends BaseAdapter {
         final int row = pos;
         LinearLayout nameTimeLayout = new LinearLayout(context);
         nameTimeLayout.setOrientation(LinearLayout.VERTICAL);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, rowHeight);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         nameTimeLayout.setLayoutParams(lp);
         nameTimeLayout.setGravity(Gravity.CENTER_VERTICAL);
-
+        nameTimeLayout.setMinimumHeight(rowHeight);
         //name column
 
-        LinearLayout rootLayout = new LinearLayout(context);
+        final LinearLayout rootLayout = new LinearLayout(context);
         rootLayout.setOrientation(LinearLayout.HORIZONTAL);
         rootLayout.setGravity(Gravity.CENTER);
         ImageView iw = new ImageView(context);
@@ -109,16 +111,13 @@ public class ActionListAdapter extends BaseAdapter {
             TextView name = new TextView(context);
             LinearLayout.LayoutParams nameParams=new LinearLayout.LayoutParams(getDimension(R.dimen.nameMaxWidth),ViewGroup.LayoutParams.WRAP_CONTENT);
             name.setLayoutParams(nameParams);
-            name.setText(limitCharPerLines(currentAction.getName(),MAX_CHARS_PER_LINE));
+            name.setText(Utils.limitCharPerLines(currentAction.getName(),MAX_CHARS_PER_LINE));
             name.setTextSize(19f);
             name.setTextColor(Color.BLACK);
             name.setSingleLine(false);
-            name.setHorizontallyScrolling(true);
-            name.setMovementMethod(new ScrollingMovementMethod());
+           // name.setHorizontallyScrolling(true);
+            //name.setMovementMethod(new ScrollingMovementMethod());
             name.setPadding(0, 0, 0, 0);
-           // name.setMaxWidth(getDimension(R.dimen.nameMaxWidth));
-
-            // configureView(name, row, viewGroup);
             nameTimeLayout.addView(name);
 
             TextView time = new TextView(context);
@@ -151,6 +150,7 @@ public class ActionListAdapter extends BaseAdapter {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    rootLayout.setBackgroundColor(context.getResources().getColor(R.color.selected_delete));
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -160,9 +160,11 @@ public class ActionListAdapter extends BaseAdapter {
                                     if (filtered != app.getActions())
                                         filtered.remove(row);
                                     notifyDataSetChanged();
+                                    rootLayout.setBackgroundResource(R.drawable.filip_selector);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
+                                    rootLayout.setBackgroundResource(R.drawable.filip_selector);
                                     break;
                             }
                         }
@@ -181,24 +183,24 @@ public class ActionListAdapter extends BaseAdapter {
 
             final ImageButton detail = new ImageButton(context);
             Drawable iconDetail = context.getResources().getDrawable(R.drawable.info);
-
             detail.setImageDrawable(iconDetail);
             detail.setBackgroundColor(Color.TRANSPARENT);
-            // detail.setTint(android.R.color.holo_blue_dark);
             detail.setPadding(0, 0, getDimension(R.dimen.paddingIconRight), 0);
-            detail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showDetailActivity(filtered.get(row).getName());
-                }
-            });
+            detail.setClickable(false);
             LinearLayout.LayoutParams detailparams = new LinearLayout.LayoutParams(buttonSize, buttonSize);
             detail.setLayoutParams(detailparams);
             detail.setScaleType(ImageView.ScaleType.FIT_CENTER);
             buttonLayout.addView(detail);
             buttonLayout.addView(delete);
             rootLayout.addView(buttonLayout);
-
+        rootLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDetailActivity(filtered.get(row).getName());
+            }
+        });
+        rootLayout.setClickable(true);
+        rootLayout.setBackgroundResource(R.drawable.filip_selector);
         return rootLayout;
     }
 
@@ -217,16 +219,6 @@ public class ActionListAdapter extends BaseAdapter {
         return (int) context.getResources().getDimension(id);
     }
 
-    private String limitCharPerLines(String text,int charNum) {
-        StringBuilder sb = new StringBuilder(text);
-        int pos=charNum;
-        int offset=0;
-        while(sb.length()-offset>pos){
-            sb.insert(pos,'\n');
-            offset++;
-            pos=pos+charNum+offset;
-        }
-        return sb.toString();
-    }
+
 
 }

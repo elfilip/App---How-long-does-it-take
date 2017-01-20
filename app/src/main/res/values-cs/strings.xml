@@ -25,21 +25,21 @@
     <string name="settings">Nastavení</string>
     <string name="about">O aplikaci</string>
     <string name="help">Nápověda</string>
-    <string name="appName">Jak dloho to trvá?</string>
+    <string name="appName">Jak dlouho to trvá?</string>
     <string name="usageConditions">Podmínky Použití</string>
-    <string name="report_issue">Nahlasit chybu</string>
+    <string name="report_issue">Nahlásit chybu</string>
     <string name="changelog">Změny</string>
     <string name="versionText">Verze</string>
     <string name="language">Vybrat Jazyk</string>
     <string name="show_icon">Zobrazovat notifikaci</string>
-    <string name="help1_text">Toto je hlavní obrazovka. Zde můžete vidět všechna vaše měření. Vyplňtě název a klikněntě na <b>START</b> pro začátek nového měření.</string>
-    <string name="help2_text">Kduž kliknente <b>START</b> časovač se aktivuje. Můžete jej pozastavit nebo napsat poznámku. Kliknětě na <b>STOP</b>, jakmile je aktivita ukončena.</string>
-    <string name="help3_text">Zde můžete změnit jmého aktivity nebo vložit poznámku. Také můžete začít nové měření pro danou aktivitu kliknutím na tračítko stopek. </string>
-    <string name="help4_text">Pokud máte více měření pro jednu aktivitu, můžete použít tlačitka nebo tažením prstu zobrazte další měření.</string>
+    <string name="help1_text">Toto je hlavní obrazovka. Zde můžete vidět všechna vaše měření. Vyplňte název a klikněte na <b>START</b> pro začátek nového měření.</string>
+    <string name="help2_text">Když kliknete na <b>START</b> časovač se aktivuje. Můžete jej pozastavit nebo napsat poznámku. Klikněte na <b>STOP</b>, jakmile je aktivita ukončena.</string>
+    <string name="help3_text">Zde můžete změnit jméno aktivity nebo vložit poznámku. Také můžete začít nové měření pro danou aktivitu kliknutím na tlačítko stopek. </string>
+    <string name="help4_text">Pokud máte více měření pro jednu aktivitu, můžete použít tlačítka nebo tažením prstu zobrazte další měření.</string>
     <string name="help_default">Zde není žádný text</string>
     <string name="add_new_measure">Vložit nové měření</string>
     <string name="cant_delete">Nelze smazat</string>
-    <string name="cant_delete_last">Nelze smazat poslední měření. Celou aktivitu můžete v smazat v hlavní nabídce.</string>
+    <string name="cant_delete_last">Nelze smazat poslední měření. Celou aktivitu můžete smazat v hlavní nabídce.</string>
     <string name="average">průměr</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
@@ -49,5 +49,4 @@
     <string name="time_white">Změnit barvu časovače na bílou</string>
     <string name="in_progress">Právě běží aktivita: %s</string>
     <string name="export_data">Exportovat</string>
-
 </resources>
