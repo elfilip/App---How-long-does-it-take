@@ -52,8 +52,15 @@ public class Utils {
         }
         result.append(seconds);
         if (listMiliseconds == true) {
+
             result.append(".");
-            result.append(time.getTime()%1000);
+            int millis=(int)(time.getTime()%1000);
+            if (millis < 10) {
+                result.append("00");
+            }else if(millis<100){
+                result.append("0");
+            }
+            result.append(millis);
         }
         return result.toString();
     }
@@ -84,9 +91,6 @@ public class Utils {
                 // convert to char and display it
                 str += (char) content;
             }
-
-            System.out.println("After reading file");
-            System.out.println(str);
             return str;
 
         } catch (IOException e) {

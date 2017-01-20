@@ -1,5 +1,7 @@
 package com.example.root.myapplication.storage;
 
+import android.util.Log;
+
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Status;
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import java.util.Properties;
 
 public class FileStorage implements Storage{
 
+    private static String tag=FileStorage.class.getSimpleName();
 
 
     private final String TIMER_PROP_NAME = "timerBase";
@@ -53,7 +56,7 @@ public class FileStorage implements Storage{
             }.getType());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't load actions",e);
             return new LinkedList<>();
         }
         if (result == null)
@@ -81,13 +84,13 @@ public class FileStorage implements Storage{
             f.write(output.toCharArray());
             f.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't save actions",e);
         } finally {
             if (f != null) {
                 try {
                     f.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "Can't save actions",e);
                 }
             }
         }
@@ -118,13 +121,13 @@ public class FileStorage implements Storage{
             return str;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't read file",e);
         } finally {
             try {
                 if (fis != null)
                     fis.close();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Log.e(tag, "Can't read actions",ex);
             }
         }
         return null;
@@ -163,13 +166,13 @@ public class FileStorage implements Storage{
             os = new FileOutputStream(file);
             status.store(os, "Status properties");
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't save status",e);
         } finally {
             if (os != null) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "Can't save status",e);
                 }
             }
         }

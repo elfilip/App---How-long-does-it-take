@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -29,6 +30,9 @@ import java.util.Date;
  *
  */
 public class TimerActivity extends AppCompatActivity {
+
+    private static String tag=TimerActivity.class.getSimpleName();
+
     private Chronometer timer;
     private boolean paused = false;
     private long timeWhenStopped = 0;
@@ -60,7 +64,9 @@ public class TimerActivity extends AppCompatActivity {
             if(app.statusExist()==true){
                 currentStatus=app.loadStatus();
             }else{
-                throw new RuntimeException("Status file must exist");
+                Log.e(tag,"Status file must exist",new Exception("Status file must exist"));
+                finish();
+                return;
             }
 
             //Load current status of the timer, application might be restarted
@@ -75,6 +81,11 @@ public class TimerActivity extends AppCompatActivity {
             //If application was unexpectedly exited, continue with measuring
             if (timerBase != -1) {
                 timer.setBase(timerBase);
+                //TODO if the phone was restarted just interrupt the timer
+                if(timerBase>=SystemClock.elapsedRealtime()){
+                    app.deleteStatus();
+                    finish();
+                }
             }
 
             //click on note, note will activate itself and confirm button is displayed

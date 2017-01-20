@@ -1,5 +1,7 @@
 package com.example.root.myapplication.storage;
 
+import android.util.Log;
+
 import com.example.root.myapplication.entity.Configuration;
 import com.google.gson.Gson;
 
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class JSONConfigurationStorage implements ConfigurationStorage {
 
     private final String FILENAME = "config.json";
+    private static String tag=JSONConfigurationStorage.class.getSimpleName();
 
     private File rootNameDir;
     private Configuration configuration;
@@ -38,7 +41,7 @@ public class JSONConfigurationStorage implements ConfigurationStorage {
             Gson g = new Gson();
             configuration = g.fromJson(fr, Configuration.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't load config",e);
             return new Configuration();
         }
         return configuration;
@@ -56,13 +59,13 @@ public class JSONConfigurationStorage implements ConfigurationStorage {
             f.write(output.toCharArray());
             f.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(tag, "Can't save config",e);
         } finally {
             if (f != null) {
                 try {
                     f.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(tag, "Can't save config",e);
                 }
             }
         }

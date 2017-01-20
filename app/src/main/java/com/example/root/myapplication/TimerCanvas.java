@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.example.root.myapplication.service.AppService;
@@ -19,6 +20,8 @@ import com.example.root.myapplication.service.AppService;
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class TimerCanvas extends View {
+
+    private static String tag=TimerCanvas.class.getSimpleName();
 
     private final int DEGREES = 6;  // degree transition for easch line when creating watch face
     private final int COLOR_WATCH_FACE = Color.RED;
@@ -151,7 +154,7 @@ public class TimerCanvas extends View {
 
     public void setSeconds(int seconds) {
         if (seconds >= 60) {
-            throw new RuntimeException("Invalid number of seconds. Max is 59 but was " + seconds);
+            Log.e(tag, "Invalid number of seconds", new Exception("Invalid number of seconds. Max is 59 but was " + seconds));
         }
         this.seconds = seconds;
     }

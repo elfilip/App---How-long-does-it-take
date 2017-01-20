@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.root.myapplication.util.Constants;
@@ -17,6 +18,8 @@ import java.io.IOException;
 
 public class ShowTxtAssetActivity extends AppCompatActivity {
 
+    private static String tag=ShowTxtAssetActivity.class.getSimpleName();
+
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -27,9 +30,9 @@ public class ShowTxtAssetActivity extends AppCompatActivity {
             AssetManager am = getApplicationContext().getAssets();
             TextView licenseText = (TextView) findViewById(R.id.licenseText);
             try {
-                licenseText.setText(Utils.readInputStream(am.open(fileName)));
+                licenseText.setText(Utils.readInputStream(am.open(fileName+"x")));
             } catch (IOException e) {
-                throw new RuntimeException("Can't load "+fileName+" file)");
+                Log.e(tag,"\"Can't load \"+fileName+\" file)\"",e);
             }
         }
 }

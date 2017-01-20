@@ -1,5 +1,7 @@
 package com.example.root.myapplication.service;
 
+import android.util.Log;
+
 import com.example.root.myapplication.entity.Action;
 import com.example.root.myapplication.entity.Configuration;
 import com.example.root.myapplication.entity.Status;
@@ -14,6 +16,9 @@ import java.util.List;
  */
 
 public class AppService {
+
+    private static String tag=AppService.class.getSimpleName();
+
 
     private static AppService instance;
     private Storage storage;
@@ -41,7 +46,9 @@ public class AppService {
 
     public Storage getStorage() {
         if(storage==null){
-            throw new RuntimeException("Storage has not been set. Please call method setStorage first");
+            RuntimeException fatalError=new RuntimeException("Storage has not been set. Please call method setStorage first");
+            Log.e(tag,"Storage has not been set. Please call method setStorage first", fatalError);
+            throw fatalError;
         }
         return storage;
     }
@@ -105,7 +112,8 @@ public class AppService {
 
     public Configuration getConfig() {
         if (config == null) {
-            throw new RuntimeException("Config storage has not been set. Please call method setStorage first");
+            Log.e(tag,"Config storage has not been set so it will not work", new RuntimeException("Config storage has not been set. Please call method setStorage first"));
+            return new Configuration();
         }
         return config.loadConfig();
     }
