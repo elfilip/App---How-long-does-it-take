@@ -53,7 +53,7 @@
         android:layout_weight="1"
         android:id="@+id/canvas_layout">
 
-        <com.example.root.myapplication.TimerCanvas
+        <com.timer.app.base.TimerCanvas
             android:id="@+id/signature_canvas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

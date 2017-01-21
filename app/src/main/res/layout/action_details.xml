@@ -242,13 +242,13 @@
         android:layout_height="1dp" />
 
 
-    <com.example.root.myapplication.fragment.CustomViewPager
+    <com.timer.app.base.fragment.CustomViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cards_pager"
         android:background="@color/main_activity_top">
 
-    </com.example.root.myapplication.fragment.CustomViewPager>
+    </com.timer.app.base.fragment.CustomViewPager>
 
 </LinearLayout>
 </ScrollView>
